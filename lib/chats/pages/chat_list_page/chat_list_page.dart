@@ -25,7 +25,13 @@ class ChatListPage extends StatelessWidget {
                   );
                 }
 
-                return ListView.builder(
+                return ListView.separated(
+                  separatorBuilder: (context, index) {
+                    return const Padding(
+                      padding: EdgeInsetsDirectional.symmetric(vertical: 16, horizontal: 12),
+                      child: Divider(color: Color(0xFF7D7878), thickness: 0.5),
+                    );
+                  },
                   padding: const EdgeInsets.symmetric(horizontal: 12),
                   itemBuilder: (context, index) {
                     final conversation = data[index];
@@ -45,23 +51,31 @@ class ChatListPage extends StatelessWidget {
                           const SizedBox(
                             width: 12,
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                conversation.contactUser.username,
-                                style: GoogleFonts.roboto(
-                                    height: 1, fontSize: 20, fontWeight: FontWeight.w700, color: Theme.of(context).primaryColor),
-                              ),
-                              Text(conversation.last_message)
-                            ],
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  conversation.contactUser.username,
+                                  style: GoogleFonts.roboto(
+                                      height: 1,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w700,
+                                      color: Theme.of(context).primaryColor),
+                                ),
+                                Text(
+                                  conversation.last_message,
+                                  overflow: TextOverflow.ellipsis,
+                                )
+                              ],
+                            ),
                           ),
-                          
-                          const Spacer(),
+                          const SizedBox(
+                            width: 12,
+                          ),
                           Text(
-                            timeago.format(DateTime.fromMillisecondsSinceEpoch((conversation.last_timestamp) * 1000))
-                            )
+                              timeago.format(DateTime.fromMillisecondsSinceEpoch((conversation.last_timestamp) * 1000)))
                         ],
                       ),
                     );
