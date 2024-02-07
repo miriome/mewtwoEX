@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:mewtwo/base/widgets/miromie_title.dart';
@@ -23,16 +25,22 @@ class _HomePageState extends State<HomePage> {
   static const int _pageTabIndex = 0;
   final store = HomePageStore();
   @override
-  void initState() {    
+  void initState() {
     FirebaseMessaging.instance.requestPermission().then((value) async {
       if (value.authorizationStatus == AuthorizationStatus.authorized) {
-        final apnsToken = await FirebaseMessaging.instance.getAPNSToken();
-        if (apnsToken != null) {
-          Mew.pc.read(RegisterPushTokenApiProvider(value: apnsToken));
+        if (Platform.isIOS) {
+          final apnsToken = await FirebaseMessaging.instance.getAPNSToken();
+          if (apnsToken != null) {
+            Mew.pc.read(RegisterPushTokenApiProvider(value: apnsToken));
+          }
+        } else if (Platform.isAndroid) {
+          final fcmToken = await FirebaseMessaging.instance.getToken();
+          if (fcmToken != null) {
+            Mew.pc.read(RegisterPushTokenApiProvider(value: fcmToken));
+          }
         }
       }
     });
-
 
     super.initState();
   }
@@ -40,31 +48,31 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Observer(builder: (context) {
-        return Scaffold(
-            backgroundColor: Colors.white,
-            appBar: appBar,
-            body: Container(
-              color: Colors.white,
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: RefreshIndicator(
-                onRefresh: () => store.loadPosts(),
-                child: AlignedGridView.count(
-                  controller: Mew.tabPrimaryScrollControllers[_pageTabIndex],
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 8,
-                  crossAxisSpacing: 8,
-                  itemCount: store.posts.length,
-                  itemBuilder: (context, index) {
-                    return HomePostTile(
-                      onUserTap: (userId) {},
-                      post: store.posts[index],
-                      onLikeToggle: (postId) => store.togglePostLike(postId: postId),
-                    );
-                  },
-                ),
+      return Scaffold(
+          backgroundColor: Colors.white,
+          appBar: appBar,
+          body: Container(
+            color: Colors.white,
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: RefreshIndicator(
+              onRefresh: () => store.loadPosts(),
+              child: AlignedGridView.count(
+                controller: Mew.tabPrimaryScrollControllers[_pageTabIndex],
+                crossAxisCount: 2,
+                mainAxisSpacing: 8,
+                crossAxisSpacing: 8,
+                itemCount: store.posts.length,
+                itemBuilder: (context, index) {
+                  return HomePostTile(
+                    onUserTap: (userId) {},
+                    post: store.posts[index],
+                    onLikeToggle: (postId) => store.togglePostLike(postId: postId),
+                  );
+                },
               ),
-            ));
-      });
+            ),
+          ));
+    });
   }
 
   PreferredSizeWidget get appBar {
@@ -78,21 +86,18 @@ class _HomePageState extends State<HomePage> {
       ),
       leadingWidth: 150,
       actions: [
-        Builder(
-          builder: (context) {
-            return GestureDetector(
-              onTap: () => LikedPostsPageRoute().push(context),
-              child: const Icon(
-                Icons.favorite,
-                color: Color(0xFFFA897B),
-                size: 28,
-              ),
-            );
-          }
-        ),
+        Builder(builder: (context) {
+          return GestureDetector(
+            onTap: () => LikedPostsPageRoute().push(context),
+            child: const Icon(
+              Icons.favorite,
+              color: Color(0xFFFA897B),
+              size: 28,
+            ),
+          );
+        }),
         const SizedBox(width: 16),
         GestureDetector(
-          
           onTap: () => ChatListPageRoute().go(context),
           child: const Icon(
             Icons.chat_bubble,
