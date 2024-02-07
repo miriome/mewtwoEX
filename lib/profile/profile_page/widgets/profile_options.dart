@@ -31,7 +31,7 @@ class ProfileOptions {
               },
               child: const Text(
                 'Share Profile',
-                style: TextStyle(color: Color(0xFF7D7878)),
+                style: TextStyle(color: Colors.black),
               ),
             ),
           );
@@ -41,7 +41,7 @@ class ProfileOptions {
               await EditMeasurementsRoute().push(context);
               store.load();
             },
-            child: const Text('Edit measurements', style: TextStyle(color: Color(0xFF7D7878))),
+            child: const Text('Edit measurements', style: TextStyle(color: Colors.black)),
           ));
 
           actions.add(CupertinoActionSheetAction(
@@ -52,7 +52,7 @@ class ProfileOptions {
             },
             child: const Text(
               'Edit profile',
-              style: TextStyle(color: Color(0xFF7D7878)),
+              style: TextStyle(color: Colors.black),
             ),
           ));
 
@@ -63,7 +63,7 @@ class ProfileOptions {
               Mew.pc.read(currentUserStoreProvider).load();
               store.load();
             },
-            child: const Text('Edit style preferences', style: TextStyle(color: Color(0xFF7D7878))),
+            child: const Text('Edit style preferences', style: TextStyle(color: Colors.black)),
           ));
 
           actions.add(CupertinoActionSheetAction(
@@ -76,7 +76,7 @@ class ProfileOptions {
                 LoginRoute().go(context);
               }
             },
-            child: const Text('Log out', style: TextStyle(color: Color(0xFF7D7878))),
+            child: const Text('Log out', style: TextStyle(color: Colors.black)),
           ));
 
           actions.add(CupertinoActionSheetAction(
@@ -129,7 +129,7 @@ class ProfileOptions {
           onPressed: () {
             Navigator.pop(modalContext);
           },
-          child: const Text('Cancel', style: TextStyle(color: Color(0xFF7D7878))),
+          child: const Text('Cancel', style: TextStyle(color: Colors.black)),
         ),
         actions: <CupertinoActionSheetAction>[
           CupertinoActionSheetAction(
@@ -139,7 +139,7 @@ class ProfileOptions {
             },
             child: const Text(
               'Share Profile',
-              style: TextStyle(color: Color(0xFF7D7878)),
+              style: TextStyle(color: Colors.black),
             ),
           ),
           CupertinoActionSheetAction(

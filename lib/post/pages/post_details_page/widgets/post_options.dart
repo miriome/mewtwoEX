@@ -40,7 +40,7 @@ class PostOptions {
             },
             child: const Text(
               'Share post',
-              style: TextStyle(color: Color(0xFF7D7878)),
+              style: TextStyle(color: Colors.black),
             ),
           ));
           if (!isMyPost) {
@@ -64,7 +64,7 @@ class PostOptions {
               },
               child: const Text(
                 'Edit post',
-                style: TextStyle(color: Color(0xFF7D7878)),
+                style: TextStyle(color: Colors.black),
               ),
             ));
             if (post.chat_enabled) {

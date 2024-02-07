@@ -131,7 +131,7 @@ class UpsertProfileBase extends ConsumerWidget {
           onPressed: () {
             Navigator.pop(modalContext);
           },
-          child: const Text('Cancel', style: TextStyle(color: Color(0xFF7D7878))),
+          child: const Text('Cancel', style: TextStyle(color: Colors.black)),
         ),
         actions: <CupertinoActionSheetAction>[
           CupertinoActionSheetAction(
@@ -143,7 +143,7 @@ class UpsertProfileBase extends ConsumerWidget {
             },
             child: const Text(
               'Take photo',
-              style: TextStyle(color: Color(0xFF7D7878)),
+              style: TextStyle(color: Colors.black),
             ),
           ),
           CupertinoActionSheetAction(
@@ -153,7 +153,7 @@ class UpsertProfileBase extends ConsumerWidget {
                 Navigator.pop(modalContext, image);
               }
             },
-            child: const Text('Select from library', style: TextStyle(color: Color(0xFF7D7878))),
+            child: const Text('Select from library', style: TextStyle(color: Colors.black)),
           ),
         ],
       ),
