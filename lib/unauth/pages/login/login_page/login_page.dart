@@ -208,7 +208,7 @@ class LoginPage extends ConsumerWidget {
               WidgetSpan(
                   child: GestureDetector(
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => Webview(url: "https://www.google.com", title: "Terms of use",)));
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => Webview(url: "https://miromie.wordpress.com/termsofuse/", title: "Terms of use",)));
                     },
                     child: const Text("Terms of use", style: TextStyle(decoration: TextDecoration.underline, fontWeight: FontWeight.w700),),
                   )
@@ -217,7 +217,7 @@ class LoginPage extends ConsumerWidget {
               WidgetSpan(
                   child: GestureDetector(
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => Webview(url: "https://www.google.com", title: "Privacy Policy",)));
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => Webview(url: "https://miromie.wordpress.com/privacypolicy/", title: "Privacy Policy",)));
                     },
                     child: const Text("Privacy Policy",style: TextStyle(decoration: TextDecoration.underline, fontWeight: FontWeight.w700),),
                   )
