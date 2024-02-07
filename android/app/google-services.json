@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "1095743520587",
+    "project_id": "miromie-93d21",
+    "storage_bucket": "miromie-93d21.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1095743520587:android:643ea69752f3f501c4f2ce",
+        "android_client_info": {
+          "package_name": "com.miromie.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1095743520587-eafs62fcpfec951fmh3mt2dcm5lct83b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlJ9-BOo0asiETt3KOThBlYtU6bWvKDB8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1095743520587-eafs62fcpfec951fmh3mt2dcm5lct83b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1095743520587-f7been3qs7nmglkht5rmeoeicsv2kt74.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.miromie.ios.miromie"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1095743520587:android:93f9c5ba6cfc0634c4f2ce",
+        "android_client_info": {
+          "package_name": "com.miromie.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1095743520587-eafs62fcpfec951fmh3mt2dcm5lct83b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlJ9-BOo0asiETt3KOThBlYtU6bWvKDB8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1095743520587-eafs62fcpfec951fmh3mt2dcm5lct83b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1095743520587-f7been3qs7nmglkht5rmeoeicsv2kt74.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.miromie.ios.miromie"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

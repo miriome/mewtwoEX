@@ -1,9 +1,14 @@
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import 'firebase_options.dart';
 import 'package:mewtwo/constants.dart';
 import 'package:mewtwo/routes/routes.dart';
 import 'package:mewtwo/mew.dart';
@@ -15,13 +20,21 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  if (Platform.isAndroid) {
+    SystemChrome.setSystemUIOverlayStyle( SystemUiOverlayStyle(
+    statusBarColor: Colors.black.withOpacity(0.2), // transparent status bar
+  ));
+  }
   
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await Constants.init();
   runApp(ProviderScope(
-      parent: Mew.pc,
-      child: const MyApp(),
-    ));}
+    parent: Mew.pc,
+    child: const MyApp(),
+  ));
+}
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});

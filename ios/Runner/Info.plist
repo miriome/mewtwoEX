@@ -37,9 +37,17 @@
 		<dict/>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<string>5</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>This app uses your camera to mirror you!</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app uses location data to geotag your photos</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>We need access to your photo library so you can choose which image to set your profile photo or post to others.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app uses your photo library to mirror you!</string>
 	<key>PHPhotoLibraryPreventAutomaticLimitedAccessAlert</key>
 	<true/>
 	<key>UIAppFonts</key>
@@ -56,16 +64,6 @@
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
-	<key>UISupportedInterfaceOrientations</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-	</array>
-	<key>UISupportedInterfaceOrientations~ipad</key>
-	<array>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-		<string>UIInterfaceOrientationPortrait</string>
-	</array>
 	<key>branch_key</key>
 	<dict>
 		<key>live</key>

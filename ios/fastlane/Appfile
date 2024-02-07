@@ -1,0 +1,8 @@
+app_identifier("com.miromie.ios.miromie") # The bundle identifier of your app
+apple_id("hello@miromie.com") # Your Apple Developer Portal username
+
+itc_team_id("126520486") # App Store Connect Team ID
+team_id("6N52UUJQBG") # Developer Portal Team ID
+
+# For more information about the Appfile, see:
+#     https://docs.fastlane.tools/advanced/#appfile
