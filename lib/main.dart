@@ -54,10 +54,9 @@ class _MyAppState extends State<MyApp> {
           //Link clicked. Add logic to get link data
           final identifier = data["\$canonical_identifier"];
           router.go(identifier);
-          // print('Url: ${identifier}');
         }
       }, onError: (error) {
-        print('listSession error: ${error.toString()}');
+        Log.instance.d('listSession error: ${error.toString()}');
       });
     });
     super.initState();

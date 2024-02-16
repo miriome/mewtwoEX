@@ -51,7 +51,9 @@
 				<category android:name="android.intent.category.DEFAULT" />
 				<category android:name="android.intent.category.BROWSABLE" />
 				<!-- REPLACE `android:host` with your `app.link` domain -->
+				<data android:scheme="miromie"/>
 				<data android:scheme="https" android:host="branch.miromie.com" />
+				<data android:scheme="https" android:host="8rypr.app.link" />
 				<!-- REPLACE `android:host` with your `-alternate` domain (required for proper functioning of App Links and Deepviews) -->
 				<data android:scheme="https" android:host="8rypr-alternate.app.link" />
 			</intent-filter>
