@@ -41,6 +41,7 @@ Future<List<({String version, bool forceUpgrade})>> _getUpgradeInfoData(_GetUpgr
 /// Null means no update.
 /// bool means dismissable or non dismissable update
 Future<bool?> needUpdate(NeedUpdateRef ref) async {
+  // TODO: Need to move these logic into server.
   final upgradeInfoData = await ref.watch(_getUpgradeInfoDataProvider.future);
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
   final currentVersion = Version.parse(packageInfo.version);
