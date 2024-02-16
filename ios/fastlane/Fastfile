@@ -32,4 +32,13 @@ platform :ios do
     build_app(workspace: "Runner.xcworkspace", scheme: "Runner")
     upload_to_testflight(skip_waiting_for_build_processing: true)
   end
+  lane :test do
+    build_app(workspace: "Runner.xcworkspace", scheme: "Runner")
+    release = firebase_app_distribution(
+      app: "1:1095743520587:ios:0f91e55967b922e9c4f2ce",
+      release_notes: "Test build",
+      groups: "internal",
+      debug: true
+  )
+  end
 end

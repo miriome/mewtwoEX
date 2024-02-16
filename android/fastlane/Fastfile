@@ -35,4 +35,15 @@ platform :android do
     gradle(task: "clean assembleRelease")
     upload_to_play_store
   end
+
+  lane :test do
+    gradle(
+      task: 'assemble',
+      build_type: 'Release'
+    )
+    firebase_app_distribution(
+      app: "1:1095743520587:android:93f9c5ba6cfc0634c4f2ce",
+      groups: "internal",
+      release_notes: "Test build"
+  )
 end
