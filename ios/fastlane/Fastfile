@@ -50,6 +50,14 @@ platform :ios do
       app_identifier: "com.miromie.ios.miromie.notifications",
       filename: "ext.mobileprovision"
     )
+    latest_release = firebase_app_distribution_get_latest_release(
+      app: "1:1095743520587:ios:0f91e55967b922e9c4f2ce"
+    )
+    
+    increment_build_number(xcodeproj: "Runner.xcodeproj",
+      build_number: latest_release[:buildVersion].to_i + 1
+      skip_info_plist: true
+    )
     build_app(workspace: "Runner.xcworkspace", scheme: "Runner", export_method: "ad-hoc", export_options: {
       provisioningProfiles: {
         "com.miromie.ios.miromie" => "com.miromie.ios.miromie AdHoc",

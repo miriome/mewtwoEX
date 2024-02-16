@@ -30,6 +30,7 @@ Runner/GeneratedPluginRegistrant.*
 *.cer
 *.p12
 *.certSigningRequest
+report.xml
 
 
 # Exceptions to above rules.
