@@ -32,7 +32,7 @@ class AppUpgradeDialog {
         },
         barrierDismissable: false,
         onActionTap: (context) {
-          final appId = Platform.isAndroid ? 'com.miromie.android' : 'com.miromie.ios.miromie';
+          final appId = Platform.isAndroid ? 'com.miromie.android' : '6451439262';
           final url = Uri.parse(
             Platform.isAndroid ? "market://details?id=$appId" : "https://apps.apple.com/app/id$appId",
           );
