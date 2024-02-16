@@ -12,7 +12,6 @@ import 'package:mewtwo/home/pages/home_page/widgets/home_post_tile.dart';
 import 'package:mewtwo/mew.dart';
 import 'package:mewtwo/post/routes/routes.dart';
 import 'package:mewtwo/routes/routes.dart';
-import 'package:mewtwo/utils.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

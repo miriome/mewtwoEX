@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mewtwo/config/app_upgrade_dialog/app_upgrade_dialog.dart';
 import 'package:mewtwo/mew.dart';
-import 'package:mewtwo/profile/routes/routes.dart';
 import 'package:mewtwo/routes/routes.dart';
-import 'package:mewtwo/unauth/routes/routes.dart';
 import 'package:mewtwo/post/routes/routes.dart';
-import 'package:mewtwo/utils.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 
 class MainTabBar extends StatefulWidget {
   final StatefulNavigationShell child;
@@ -19,54 +16,20 @@ class MainTabBar extends StatefulWidget {
 }
 
 class _MainTabBarState extends State<MainTabBar> {
-  Future<void> _methodCall(MethodCall call) async {
-    if (context.mounted) {
-      switch (call.method) {
-        case "goToMyProfile":
-          ProfilePageRoute().go(context);
-          break;
-        case "goToHome":
-          HomePageRoute().go(context);
-        case "goToLogin":
-          final sp = await SharedPreferences.getInstance();
-          await sp.clear();
-          if (context.mounted) {
-            LoginRoute().go(context);
-          }
-
-        // LoginRoute().go(context);
-        case 'goToSearch':
-          if (call.arguments is String) {
-            SearchPageRoute().goWithInitialSearchTerm(context, call.arguments.removePrefix("#"));
-          } else {
-            SearchPageRoute().go(context);
-          }
-          break;
-        case 'goToPostDetails':
-          if (call.arguments is int) {
-            PostDetailsRoute(postId: call.arguments).pushReplacement(context);
-          }
-          break;
-      }
-    }
-  }
 
   @override
   void initState() {
-    // MainPlatform.addMethodCallhandler(_methodCall);
     // Try to deeplink after logging in.
     FlutterBranchSdk.getLatestReferringParams().then((data) {
       if (data.containsKey("\$canonical_identifier")) {
         context.go(data["\$canonical_identifier"]);
       }
     });
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) { 
+      AppUpgradeDialog.showIfNeeded(context);
+    });
+    
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    // MainPlatform.removeMethodCallHandler(_methodCall);
-    super.dispose();
   }
 
   @override

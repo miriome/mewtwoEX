@@ -7,7 +7,7 @@ part of 'api.dart';
 // **************************************************************************
 
 String _$registerPushTokenApiHash() =>
-    r'aeb07107f764f8a6fd9c68a90f37e3a4743b2c68';
+    r'50657ed788fb00706663ffab29e5a6b89176335b';
 
 /// Copied from Dart SDK
 class _SystemHash {

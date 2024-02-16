@@ -81,6 +81,8 @@ dependencies:
   connectivity_plus: ^5.0.2
   cloud_firestore: ^4.15.3
   flutter_chat_ui: ^1.6.11
+  package_info_plus: ^5.0.1
+  pub_semver: ^2.1.4
 
 
 

@@ -1,20 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mewtwo/config/app_upgrade_dialog/app_upgrade_dialog.dart';
 import 'package:mewtwo/routes/routes.dart';
 import 'package:mewtwo/unauth/pages/login/login_page/login_page_store.dart';
 import 'package:mewtwo/base/pages/webview/webview.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mewtwo/unauth/routes/routes.dart';
-import 'package:mewtwo/utils.dart';
 
-class LoginPage extends ConsumerWidget {
+class LoginPage extends StatefulWidget {
   LoginPage({Key? key}) : super(key: key);
-  final store = LoginPageStore();
-  final _formKey = GlobalKey<FormState>();
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final store = LoginPageStore();
+
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) { 
+      AppUpgradeDialog.showIfNeeded(context);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Observer(
       builder: (context) {
         return PopScope(

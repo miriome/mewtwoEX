@@ -1,18 +1,20 @@
 import 'package:flutter/cupertino.dart';
 
 class ConfirmDialog extends StatelessWidget {
-const ConfirmDialog({ Key? key }) : super(key: key);
+  const ConfirmDialog({Key? key}) : super(key: key);
 
-  static Future<void> show(BuildContext context, {
-    required String title,
-    required String content,
-    required String actionText,
-    required void Function(BuildContext) onActionTap,
-    String destructiveText = "Cancel",
-    void Function(BuildContext)? onDestructiveTap
-  }) {
-     return showCupertinoModalPopup<void>(
+  static Future<void> show(BuildContext context,
+      {required String title,
+      required String content,
+      required String actionText,
+      required void Function(BuildContext) onActionTap,
+      bool barrierDismissable = true,
+      String destructiveText = "Cancel",
+      bool showDestructionAction = true,
+      void Function(BuildContext)? onDestructiveTap}) {
+    return showCupertinoModalPopup<void>(
       context: context,
+      barrierDismissible: barrierDismissable,
       builder: (BuildContext dialogContext) => CupertinoAlertDialog(
         title: Text(title),
         content: Text(content),
@@ -25,27 +27,28 @@ const ConfirmDialog({ Key? key }) : super(key: key);
             onPressed: () => onActionTap(dialogContext),
             child: Text(actionText),
           ),
-          CupertinoDialogAction(
-            /// This parameter indicates the action would perform
-            /// a destructive action such as deletion, and turns
-            /// the action's text color to red.
-            isDestructiveAction: true,
-            onPressed: () {
-              if (onDestructiveTap != null) {
-                onDestructiveTap(dialogContext);
-                return;
-              }
-              Navigator.of(dialogContext).pop();
-            },
-            child: Text(destructiveText),
-          ),
+          if (showDestructionAction)
+            CupertinoDialogAction(
+              /// This parameter indicates the action would perform
+              /// a destructive action such as deletion, and turns
+              /// the action's text color to red.
+              isDestructiveAction: true,
+              onPressed: () {
+                if (onDestructiveTap != null) {
+                  onDestructiveTap(dialogContext);
+                  return;
+                }
+                Navigator.of(dialogContext).pop();
+              },
+              child: Text(destructiveText),
+            ),
         ],
       ),
     );
   }
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Container();
   }
 }
