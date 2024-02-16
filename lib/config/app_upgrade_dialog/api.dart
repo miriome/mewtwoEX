@@ -46,7 +46,7 @@ Future<bool?> needUpdate(NeedUpdateRef ref) async {
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
   final currentVersion = Version.parse(packageInfo.version);
   final upgradeInfo =
-      upgradeInfoData.where((info) => Version.parse(info.version).compareTo(currentVersion) >= 0).sortedByDescending((info) => Version.parse(info.version));
+      upgradeInfoData.where((info) => Version.parse(info.version).compareTo(currentVersion) > 0).sortedByDescending((info) => Version.parse(info.version));
   if (upgradeInfo.isEmpty) {
     return null;
   }
