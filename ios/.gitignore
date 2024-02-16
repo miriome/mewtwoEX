@@ -26,6 +26,11 @@ Flutter/flutter_assets/
 Flutter/flutter_export_environment.sh
 ServiceDefinitions.json
 Runner/GeneratedPluginRegistrant.*
+*.mobileprovision
+*.cer
+*.p12
+*.certSigningRequest
+
 
 # Exceptions to above rules.
 !default.mode1v3

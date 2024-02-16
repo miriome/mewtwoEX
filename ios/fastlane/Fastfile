@@ -33,7 +33,30 @@ platform :ios do
     upload_to_testflight(skip_waiting_for_build_processing: true)
   end
   lane :test do
-    build_app(workspace: "Runner.xcworkspace", scheme: "Runner")
+    app_store_connect_api_key(
+      key_id: "GRFC9HYN3S",
+      issuer_id: "4a594785-b4ff-40e5-97d0-c326be294e8c",
+      key_filepath: File.join(Dir.pwd, "GRFC9HYN3S.p8")
+      
+    )
+    cert
+    sigh(
+      adhoc: true,
+      app_identifier: "com.miromie.ios.miromie",
+      filename: "app.mobileprovision"
+    )
+    sigh(
+      adhoc: true,
+      app_identifier: "com.miromie.ios.miromie.notifications",
+      filename: "ext.mobileprovision"
+    )
+    build_app(workspace: "Runner.xcworkspace", scheme: "Runner", export_method: "ad-hoc", export_options: {
+      provisioningProfiles: {
+        "com.miromie.ios.miromie" => "com.miromie.ios.miromie AdHoc",
+        "com.miromie.ios.miromie.notifications" => "com.miromie.ios.miromie.notifications AdHoc"
+      }
+    })
+    
     release = firebase_app_distribution(
       app: "1:1095743520587:ios:0f91e55967b922e9c4f2ce",
       release_notes: "Test build",
