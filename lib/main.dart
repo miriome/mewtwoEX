@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -17,18 +18,28 @@ import 'package:mewtwo/unauth/routes/routes.dart';
 import 'package:mewtwo/utils.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (Platform.isAndroid) {
-    SystemChrome.setSystemUIOverlayStyle( SystemUiOverlayStyle(
-    statusBarColor: Colors.black.withOpacity(0.2), // transparent status bar
-  ));
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.black.withOpacity(0.2), // transparent status bar
+    ));
   }
-  
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  FlutterError.onError = (errorDetails) {
+    FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+  };
+  // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
+  PlatformDispatcher.instance.onError = (error, stack) {
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    return true;
+  };
+  await FlutterBranchSdk.init(useTestKey: false, enableLogging: false, disableTracking: false);
   await Constants.init();
   runApp(ProviderScope(
     parent: Mew.pc,
@@ -46,18 +57,16 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   void initState() {
-    FlutterBranchSdk.init(useTestKey: false, enableLogging: false, disableTracking: false).then((value) {
-      FlutterBranchSdk.listSession().listen((data) {
-        if (data.containsKey("+clicked_branch_link") &&
-            data["+clicked_branch_link"] == true &&
-            data.containsKey("\$canonical_identifier")) {
-          //Link clicked. Add logic to get link data
-          final identifier = data["\$canonical_identifier"];
-          router.go(identifier);
-        }
-      }, onError: (error) {
-        Log.instance.d('listSession error: ${error.toString()}');
-      });
+    FlutterBranchSdk.listSession().listen((data) {
+      if (data.containsKey("+clicked_branch_link") &&
+          data["+clicked_branch_link"] == true &&
+          data.containsKey("\$canonical_identifier")) {
+        //Link clicked. Add logic to get link data
+        final identifier = data["\$canonical_identifier"];
+        router.go(identifier);
+      }
+    }, onError: (error) {
+      Log.instance.d('listSession error: ${error.toString()}');
     });
     super.initState();
   }

@@ -83,6 +83,8 @@ dependencies:
   flutter_chat_ui: ^1.6.11
   package_info_plus: ^5.0.1
   pub_semver: ^2.1.4
+  firebase_crashlytics: ^3.4.15
+  firebase_analytics: ^10.8.6
 
 
 

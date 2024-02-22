@@ -51,6 +51,7 @@ class UpsertProfileBase extends ConsumerWidget {
                 final croppedFile = await ImageCropper().cropImage(
                   sourcePath: imageFile.path,
                   cropStyle: CropStyle.circle,
+                  aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1)
                 );
                 if (croppedFile != null) {
                   store.displayImagePath = croppedFile.path;
