@@ -74,8 +74,14 @@ class _UpsertMeasurementsBaseState extends State<UpsertMeasurementsBase> with Si
                       tabBar(),
                       Expanded(
                         child: TabBarView(controller: tabController, children: [
-                          NumberMeasurementForm(store: widget.store),
-                          SmlMeasurementForm(store: widget.store)
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: NumberMeasurementForm(store: widget.store),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: SmlMeasurementForm(store: widget.store),
+                          )
                         ]),
                       ),
                     ],

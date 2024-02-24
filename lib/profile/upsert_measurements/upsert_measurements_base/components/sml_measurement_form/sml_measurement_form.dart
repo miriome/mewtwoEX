@@ -61,7 +61,7 @@ class SmlMeasurementForm extends StatelessWidget {
   }
 
   Widget buildBrandSize(String category, int index) {
-    return Builder(builder: (context) {
+    return Observer(builder: (context) {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 16),
         child: Row(
@@ -71,18 +71,34 @@ class SmlMeasurementForm extends StatelessWidget {
               child: FormBuilderDropdown(
                   name: "${formStore.clothingSizings[category]![index].key}_brand",
                   isExpanded: false,
+                  
                   items: const [DropdownMenuItem(value: "test", child: Text("test"))],
                   validator: FormBuilderValidators.required(),
-                  onSaved: (text) {
+                  onChanged: (text) {
                     if (text != null) {
                       formStore.clothingSizings[category]?[index].brand = text;
                     }
                   },
-                  decoration: const InputDecoration(
-                    labelText: "Brand",
-                    hintText: 'Select Brand',
-                    floatingLabelBehavior: FloatingLabelBehavior.always
-                  )),
+                  decoration: InputDecoration(
+                      labelText: "Brand",
+                      hintText: 'Select Brand',
+                      floatingLabelStyle: TextStyle(
+                          color: formStore.clothingSizings[category]![index].brand.isNotEmpty
+                              ? Theme.of(context).primaryColor
+                              : Colors.black),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(
+                              color: formStore.clothingSizings[category]![index].brand.isNotEmpty
+                                  ? Theme.of(context).primaryColor
+                                  : Colors.black)),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(
+                              color: formStore.clothingSizings[category]![index].brand.isNotEmpty
+                                  ? Theme.of(context).primaryColor
+                                  : Colors.black)),
+                      floatingLabelBehavior: FloatingLabelBehavior.always)),
             ),
             const SizedBox(
               width: 12,
@@ -93,16 +109,31 @@ class SmlMeasurementForm extends StatelessWidget {
                   isExpanded: false,
                   validator: FormBuilderValidators.required(),
                   items: const [DropdownMenuItem(value: "test", child: Text("test"))],
-                  onSaved: (text) {
+                  onChanged: (text) {
                     if (text != null) {
                       formStore.clothingSizings[category]?[index].size = text;
                     }
                   },
-                  decoration: const InputDecoration(
-                    labelText: "Size",
-                    hintText: 'Select Size',
-                    floatingLabelBehavior: FloatingLabelBehavior.always
-                  )),
+                  decoration: InputDecoration(
+                      floatingLabelStyle: TextStyle(
+                          color: formStore.clothingSizings[category]![index].size.isNotEmpty
+                              ? Theme.of(context).primaryColor
+                              : Colors.black),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(
+                              color: formStore.clothingSizings[category]![index].size.isNotEmpty
+                                  ? Theme.of(context).primaryColor
+                                  : Colors.black)),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(
+                              color: formStore.clothingSizings[category]![index].size.isNotEmpty
+                                  ? Theme.of(context).primaryColor
+                                  : Colors.black)),
+                      labelText: "Size",
+                      hintText: 'Select Size',
+                      floatingLabelBehavior: FloatingLabelBehavior.always)),
             ),
             const SizedBox(
               width: 12,
