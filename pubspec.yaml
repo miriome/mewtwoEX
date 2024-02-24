@@ -85,6 +85,7 @@ dependencies:
   pub_semver: ^2.1.4
   firebase_crashlytics: ^3.4.15
   firebase_analytics: ^10.8.6
+  form_builder_validators: ^9.1.0
 
 
 

@@ -1,6 +1,7 @@
 import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mewtwo/profile/upsert_measurements/upsert_measurements_base/components/sml_measurement_form/sml_measurement_form_store.dart';
@@ -16,10 +17,16 @@ class SmlMeasurementForm extends StatelessWidget {
     return Observer(builder: (context) {
       return SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Sizes from my favourite brands"),
-            ...formStore.availableClothingCategories.map((type) => buildSingleItem(type))
-            ,
+            const Text(
+              "Sizes from my favourite brands",
+              style: TextStyle(fontSize: 16),
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            ...formStore.availableClothingCategories.map((type) => buildSingleItem(type)),
           ],
         ),
       );
@@ -29,15 +36,19 @@ class SmlMeasurementForm extends StatelessWidget {
   Widget buildSingleItem(String category) {
     return Column(
       mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(category),
+        Text(
+          category,
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
         ...formStore.clothingSizings[category]?.mapIndexed((index, _) => buildBrandSize(category, index)) ?? [],
-        SizedBox(
+        const SizedBox(
           height: 16,
         ),
         GestureDetector(
           onTap: () {
-            formStore.clothingSizings[category]?.add(BrandSizing());
+            formStore.addSize(category);
           },
           child: SvgPicture.asset(
             "assets/icons/ic_add.svg",
@@ -50,50 +61,65 @@ class SmlMeasurementForm extends StatelessWidget {
   }
 
   Widget buildBrandSize(String category, int index) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Flexible(
-          child: FormBuilderDropdown(
-              name: '${category}_brand_$index',
-              isExpanded: false,
-              items: [DropdownMenuItem(value: "test", child: Text("test"))] as List<DropdownMenuItem<String>>,
-              onSaved: (text) {
-                if (text != null) {
-                  formStore.clothingSizings[category]?[index].brand = text;
-                }
+    return Builder(builder: (context) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Flexible(
+              child: FormBuilderDropdown(
+                  name: "${formStore.clothingSizings[category]![index].key}_brand",
+                  isExpanded: false,
+                  items: const [DropdownMenuItem(value: "test", child: Text("test"))],
+                  validator: FormBuilderValidators.required(),
+                  onSaved: (text) {
+                    if (text != null) {
+                      formStore.clothingSizings[category]?[index].brand = text;
+                    }
+                  },
+                  decoration: const InputDecoration(
+                    labelText: "Brand",
+                    hintText: 'Select Brand',
+                    floatingLabelBehavior: FloatingLabelBehavior.always
+                  )),
+            ),
+            const SizedBox(
+              width: 12,
+            ),
+            Flexible(
+              child: FormBuilderDropdown(
+                  name: "${formStore.clothingSizings[category]![index].key}_size",
+                  isExpanded: false,
+                  validator: FormBuilderValidators.required(),
+                  items: const [DropdownMenuItem(value: "test", child: Text("test"))],
+                  onSaved: (text) {
+                    if (text != null) {
+                      formStore.clothingSizings[category]?[index].size = text;
+                    }
+                  },
+                  decoration: const InputDecoration(
+                    labelText: "Size",
+                    hintText: 'Select Size',
+                    floatingLabelBehavior: FloatingLabelBehavior.always
+                  )),
+            ),
+            const SizedBox(
+              width: 12,
+            ),
+            GestureDetector(
+              onTap: () {
+                formStore.removeSize(category: category, index: index);
               },
-              decoration: const InputDecoration(
-                counterText: "",
-                labelText: "Brand",
-              )),
+              child: SvgPicture.asset(
+                'assets/icons/ic_remove2.svg',
+                height: 32,
+                width: 32,
+              ),
+            ),
+          ],
         ),
-        const SizedBox(
-          width: 12,
-        ),
-        Flexible(
-          child: FormBuilderDropdown(
-              name: '${category}_size_$index',
-              isExpanded: false,
-              items: [DropdownMenuItem(value: "test", child: Text("test"))] as List<DropdownMenuItem<String>>,
-              onSaved: (text) {
-                if (text != null) {
-                  formStore.clothingSizings[category]?[index].size = text;
-                }
-              },
-              decoration: const InputDecoration(
-                labelText: "Size",
-              )),
-        ),
-        const SizedBox(
-          width: 12,
-        ),
-        SvgPicture.asset(
-          'assets/icons/ic_remove2.svg',
-          height: 32,
-          width: 32,
-        ),
-      ],
-    );
+      );
+    });
   }
 }
