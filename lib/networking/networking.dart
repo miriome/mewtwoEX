@@ -6,8 +6,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 class Networking {
   final dio = Dio();
   static Networking? _singleton;
-  // static const domain = "http://localhost:8080";
-  static const domain = "https://miromie.com";
+  static const domain = "http://localhost:8080";
+  // static const domain = "https://miromie.com";
   static const imageDomain = "$domain/uploads/";
   
   

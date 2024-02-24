@@ -4,13 +4,17 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mewtwo/home/model/brand_sizing_model.dart';
 import 'package:mewtwo/profile/upsert_measurements/upsert_measurements_base/components/sml_measurement_form/sml_measurement_form_store.dart';
 import 'package:mewtwo/profile/upsert_measurements/upsert_measurements_base/upsert_measurements_base_store.dart';
 
 class SmlMeasurementForm extends StatelessWidget {
   final UpsertMeasurementsBaseStore store;
-  final SmlMeasurementFormStore formStore = SmlMeasurementFormStore();
-  SmlMeasurementForm({Key? key, required this.store}) : super(key: key);
+
+  late final SmlMeasurementFormStore formStore;
+  SmlMeasurementForm({Key? key, required this.store, required List<BrandSizingModel> brandSizings}) : super(key: key) {
+    formStore = SmlMeasurementFormStore(brandSizings);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +30,7 @@ class SmlMeasurementForm extends StatelessWidget {
             const SizedBox(
               height: 16,
             ),
-            ...formStore.availableClothingCategories.map((type) => buildSingleItem(type)),
-            const SizedBox(
-              height: 24,
-            ),
+            ...formStore.availableClothingTypes.map((type) => buildSingleItem(type)),
             FormBuilderSwitch(
               name: "measurementPrivacy",
               initialValue: store.hideFromNonFollowers,
@@ -49,34 +50,38 @@ class SmlMeasurementForm extends StatelessWidget {
     });
   }
 
-  Widget buildSingleItem(String category) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          category,
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-        ),
-        ...formStore.clothingSizings[category]?.mapIndexed((index, _) => buildBrandSize(category, index)) ?? [],
-        const SizedBox(
-          height: 16,
-        ),
-        GestureDetector(
-          onTap: () {
-            formStore.addSize(category);
-          },
-          child: SvgPicture.asset(
-            "assets/icons/ic_add.svg",
-            height: 30,
-            width: 30,
+  Widget buildSingleItem(String clothingType) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 20),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            clothingType,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
-        ),
-      ],
+          ...formStore.clothingSizings[clothingType]?.mapIndexed((index, _) => buildBrandSize(clothingType, index)) ??
+              [],
+          const SizedBox(
+            height: 16,
+          ),
+          GestureDetector(
+            onTap: () {
+              formStore.addSize(clothingType);
+            },
+            child: SvgPicture.asset(
+              "assets/icons/ic_add.svg",
+              height: 30,
+              width: 30,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
-  Widget buildBrandSize(String category, int index) {
+  Widget buildBrandSize(String clothingType, int index) {
     return Observer(builder: (context) {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 16),
@@ -85,33 +90,35 @@ class SmlMeasurementForm extends StatelessWidget {
           children: [
             Flexible(
               child: FormBuilderDropdown(
-                  name: "${formStore.clothingSizings[category]![index].key}_brand",
-                  isExpanded: false,
-                  
-                  items: const [DropdownMenuItem(value: "test", child: Text("test"))],
+                  name: "${formStore.clothingSizings[clothingType]![index].key}_brand",
+                  items: formStore
+                      .getBrandOptions(clothingType)
+                      .map((e) => DropdownMenuItem(value: e.brand, child: Text(e.brandName, overflow: TextOverflow.ellipsis)))
+                      .toList(),
                   validator: FormBuilderValidators.required(),
                   onChanged: (text) {
                     if (text != null) {
-                      formStore.clothingSizings[category]?[index].brand = text;
+                      formStore.clothingSizings[clothingType]?[index].brand = text;
                     }
                   },
+                  
                   decoration: InputDecoration(
                       labelText: "Brand",
                       hintText: 'Select Brand',
                       floatingLabelStyle: TextStyle(
-                          color: formStore.clothingSizings[category]![index].brand.isNotEmpty
+                          color: formStore.clothingSizings[clothingType]![index].brand.isNotEmpty
                               ? Theme.of(context).primaryColor
                               : Colors.black),
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(
-                              color: formStore.clothingSizings[category]![index].brand.isNotEmpty
+                              color: formStore.clothingSizings[clothingType]![index].brand.isNotEmpty
                                   ? Theme.of(context).primaryColor
                                   : Colors.black)),
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(
-                              color: formStore.clothingSizings[category]![index].brand.isNotEmpty
+                              color: formStore.clothingSizings[clothingType]![index].brand.isNotEmpty
                                   ? Theme.of(context).primaryColor
                                   : Colors.black)),
                       floatingLabelBehavior: FloatingLabelBehavior.always)),
@@ -121,30 +128,32 @@ class SmlMeasurementForm extends StatelessWidget {
             ),
             Flexible(
               child: FormBuilderDropdown(
-                  name: "${formStore.clothingSizings[category]![index].key}_size",
-                  isExpanded: false,
+                  name: "${formStore.clothingSizings[clothingType]![index].key}_size",
                   validator: FormBuilderValidators.required(),
-                  items: const [DropdownMenuItem(value: "test", child: Text("test"))],
+                  items: formStore
+                      .getSizeOptions(clothingType)
+                      .map((e) => DropdownMenuItem(value: e, child: Text(e,)))
+                      .toList(),
                   onChanged: (text) {
                     if (text != null) {
-                      formStore.clothingSizings[category]?[index].size = text;
+                      formStore.clothingSizings[clothingType]?[index].size = text;
                     }
                   },
                   decoration: InputDecoration(
                       floatingLabelStyle: TextStyle(
-                          color: formStore.clothingSizings[category]![index].size.isNotEmpty
+                          color: formStore.clothingSizings[clothingType]![index].size.isNotEmpty
                               ? Theme.of(context).primaryColor
                               : Colors.black),
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(
-                              color: formStore.clothingSizings[category]![index].size.isNotEmpty
+                              color: formStore.clothingSizings[clothingType]![index].size.isNotEmpty
                                   ? Theme.of(context).primaryColor
                                   : Colors.black)),
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(
-                              color: formStore.clothingSizings[category]![index].size.isNotEmpty
+                              color: formStore.clothingSizings[clothingType]![index].size.isNotEmpty
                                   ? Theme.of(context).primaryColor
                                   : Colors.black)),
                       labelText: "Size",
@@ -156,7 +165,7 @@ class SmlMeasurementForm extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-                formStore.removeSize(category: category, index: index);
+                formStore.removeSize(clothingType: clothingType, index: index);
               },
               child: SvgPicture.asset(
                 'assets/icons/ic_remove2.svg',

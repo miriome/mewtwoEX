@@ -51,6 +51,15 @@ size: ${size}
 }
 
 mixin _$SmlMeasurementFormStore on _SmlMeasurementFormStore, Store {
+  Computed<Set<String>>? _$availableClothingTypesComputed;
+
+  @override
+  Set<String> get availableClothingTypes =>
+      (_$availableClothingTypesComputed ??= Computed<Set<String>>(
+              () => super.availableClothingTypes,
+              name: '_SmlMeasurementFormStore.availableClothingTypes'))
+          .value;
+
   late final _$clothingSizingsAtom =
       Atom(name: '_SmlMeasurementFormStore.clothingSizings', context: context);
 
@@ -83,11 +92,11 @@ mixin _$SmlMeasurementFormStore on _SmlMeasurementFormStore, Store {
   }
 
   @override
-  void removeSize({required String category, required int index}) {
+  void removeSize({required String clothingType, required int index}) {
     final _$actionInfo = _$_SmlMeasurementFormStoreActionController.startAction(
         name: '_SmlMeasurementFormStore.removeSize');
     try {
-      return super.removeSize(category: category, index: index);
+      return super.removeSize(clothingType: clothingType, index: index);
     } finally {
       _$_SmlMeasurementFormStoreActionController.endAction(_$actionInfo);
     }
@@ -96,7 +105,8 @@ mixin _$SmlMeasurementFormStore on _SmlMeasurementFormStore, Store {
   @override
   String toString() {
     return '''
-clothingSizings: ${clothingSizings}
+clothingSizings: ${clothingSizings},
+availableClothingTypes: ${availableClothingTypes}
     ''';
   }
 }
