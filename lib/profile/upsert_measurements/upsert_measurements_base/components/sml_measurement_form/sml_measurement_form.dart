@@ -27,6 +27,22 @@ class SmlMeasurementForm extends StatelessWidget {
               height: 16,
             ),
             ...formStore.availableClothingCategories.map((type) => buildSingleItem(type)),
+            const SizedBox(
+              height: 24,
+            ),
+            FormBuilderSwitch(
+              name: "measurementPrivacy",
+              initialValue: store.hideFromNonFollowers,
+              title: const Text(
+                "Hide my measurements from people who do not follow me",
+                style: TextStyle(fontSize: 16, color: Colors.black),
+              ),
+              onSaved: (hide) {
+                store.hideFromNonFollowers = hide ?? false;
+              },
+              inactiveTrackColor: const Color(0xFF7D7878),
+              decoration: const InputDecoration(enabledBorder: InputBorder.none, contentPadding: EdgeInsets.zero),
+            ),
           ],
         ),
       );
