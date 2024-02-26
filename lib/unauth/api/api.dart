@@ -12,12 +12,8 @@ part 'api.g.dart';
 final dio = Dio();
 
 @riverpod
-Future<bool> loginApi(LoginApiRef ref,
-    {required String username, required String password}) async {
-  final body = {
-    'username': username,
-    'password': password
-  };
+Future<bool> loginApi(LoginApiRef ref, {required String username, required String password}) async {
+  final body = {'username': username, 'password': password};
 
   try {
     final res = await (await Networking.instance).post(path: "auth/login", body: body);
@@ -133,13 +129,21 @@ Future<bool> editProfileApi(EditProfileApiRef ref,
 }
 
 @riverpod
-Future<bool> editMeasurementsApi(EditMeasurementsApiRef ref, {int? height, int? bust, int? waist, int? hips, required MeasurementPrivacy privacy}) async {
+Future<bool> editMeasurementsApi(EditMeasurementsApiRef ref,
+    {int? height,
+    int? bust,
+    int? waist,
+    int? hips,
+    required MeasurementPrivacy privacy,
+    required List<({String brandName, String clothingType, String size})> brandSizings}) async {
   final body = {
     'height': height == null ? "" : height.toString(),
     'bust': bust == null ? "" : bust.toString(),
     'waist': waist == null ? "" : waist.toString(),
     'hips': hips == null ? "" : hips.toString(),
-    'measurementPrivacy' : privacy.name
+    'measurementPrivacy': privacy.name,
+    'brandSizings':
+        brandSizings.map((e) => {'brand_name': e.brandName, 'clothing_type': e.clothingType, 'size': e.size}).toList()
   };
 
   try {

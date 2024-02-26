@@ -8,8 +8,6 @@ part 'brand_sizing_model.g.dart';
 class BrandSizingModel {
   
   final String brand_name;
-
-  final String brand;
   
   final String clothing_type;
 
@@ -19,7 +17,7 @@ class BrandSizingModel {
   /// factory.
   factory BrandSizingModel.fromJson(Map<String, dynamic> json) => _$BrandSizingModelFromJson(json);
 
-  BrandSizingModel({required this.brand, required this.brand_name, required this.clothing_type, required this.size});
+  BrandSizingModel({required this.brand_name, required this.clothing_type, required this.size});
 
   /// Connect the generated [_$BrandSizingModelToJson] function to the `toJson` method.
   Map<String, dynamic> toJson() => _$BrandSizingModelToJson(this);

@@ -642,7 +642,7 @@ class _EditProfileApiProviderElement
 }
 
 String _$editMeasurementsApiHash() =>
-    r'61f02afc2151a5dc3ab7ced91398d206e9cbdea2';
+    r'b6006ee0eb59e8b76c9a9a6a6496f33058af6940';
 
 /// See also [editMeasurementsApi].
 @ProviderFor(editMeasurementsApi)
@@ -660,6 +660,8 @@ class EditMeasurementsApiFamily extends Family<AsyncValue<bool>> {
     int? waist,
     int? hips,
     required MeasurementPrivacy privacy,
+    required List<({String brandName, String clothingType, String size})>
+        brandSizings,
   }) {
     return EditMeasurementsApiProvider(
       height: height,
@@ -667,6 +669,7 @@ class EditMeasurementsApiFamily extends Family<AsyncValue<bool>> {
       waist: waist,
       hips: hips,
       privacy: privacy,
+      brandSizings: brandSizings,
     );
   }
 
@@ -680,6 +683,7 @@ class EditMeasurementsApiFamily extends Family<AsyncValue<bool>> {
       waist: provider.waist,
       hips: provider.hips,
       privacy: provider.privacy,
+      brandSizings: provider.brandSizings,
     );
   }
 
@@ -707,6 +711,8 @@ class EditMeasurementsApiProvider extends AutoDisposeFutureProvider<bool> {
     int? waist,
     int? hips,
     required MeasurementPrivacy privacy,
+    required List<({String brandName, String clothingType, String size})>
+        brandSizings,
   }) : this._internal(
           (ref) => editMeasurementsApi(
             ref as EditMeasurementsApiRef,
@@ -715,6 +721,7 @@ class EditMeasurementsApiProvider extends AutoDisposeFutureProvider<bool> {
             waist: waist,
             hips: hips,
             privacy: privacy,
+            brandSizings: brandSizings,
           ),
           from: editMeasurementsApiProvider,
           name: r'editMeasurementsApiProvider',
@@ -730,6 +737,7 @@ class EditMeasurementsApiProvider extends AutoDisposeFutureProvider<bool> {
           waist: waist,
           hips: hips,
           privacy: privacy,
+          brandSizings: brandSizings,
         );
 
   EditMeasurementsApiProvider._internal(
@@ -744,6 +752,7 @@ class EditMeasurementsApiProvider extends AutoDisposeFutureProvider<bool> {
     required this.waist,
     required this.hips,
     required this.privacy,
+    required this.brandSizings,
   }) : super.internal();
 
   final int? height;
@@ -751,6 +760,8 @@ class EditMeasurementsApiProvider extends AutoDisposeFutureProvider<bool> {
   final int? waist;
   final int? hips;
   final MeasurementPrivacy privacy;
+  final List<({String brandName, String clothingType, String size})>
+      brandSizings;
 
   @override
   Override overrideWith(
@@ -770,6 +781,7 @@ class EditMeasurementsApiProvider extends AutoDisposeFutureProvider<bool> {
         waist: waist,
         hips: hips,
         privacy: privacy,
+        brandSizings: brandSizings,
       ),
     );
   }
@@ -786,7 +798,8 @@ class EditMeasurementsApiProvider extends AutoDisposeFutureProvider<bool> {
         other.bust == bust &&
         other.waist == waist &&
         other.hips == hips &&
-        other.privacy == privacy;
+        other.privacy == privacy &&
+        other.brandSizings == brandSizings;
   }
 
   @override
@@ -797,6 +810,7 @@ class EditMeasurementsApiProvider extends AutoDisposeFutureProvider<bool> {
     hash = _SystemHash.combine(hash, waist.hashCode);
     hash = _SystemHash.combine(hash, hips.hashCode);
     hash = _SystemHash.combine(hash, privacy.hashCode);
+    hash = _SystemHash.combine(hash, brandSizings.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -817,6 +831,9 @@ mixin EditMeasurementsApiRef on AutoDisposeFutureProviderRef<bool> {
 
   /// The parameter `privacy` of this provider.
   MeasurementPrivacy get privacy;
+
+  /// The parameter `brandSizings` of this provider.
+  List<({String brandName, String clothingType, String size})> get brandSizings;
 }
 
 class _EditMeasurementsApiProviderElement
@@ -834,6 +851,9 @@ class _EditMeasurementsApiProviderElement
   @override
   MeasurementPrivacy get privacy =>
       (origin as EditMeasurementsApiProvider).privacy;
+  @override
+  List<({String brandName, String clothingType, String size})>
+      get brandSizings => (origin as EditMeasurementsApiProvider).brandSizings;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

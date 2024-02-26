@@ -8,7 +8,6 @@ part of 'brand_sizing_model.dart';
 
 BrandSizingModel _$BrandSizingModelFromJson(Map<String, dynamic> json) =>
     BrandSizingModel(
-      brand: json['brand'] as String,
       brand_name: json['brand_name'] as String,
       clothing_type: json['clothing_type'] as String,
       size: json['size'] as String,
@@ -17,7 +16,6 @@ BrandSizingModel _$BrandSizingModelFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$BrandSizingModelToJson(BrandSizingModel instance) =>
     <String, dynamic>{
       'brand_name': instance.brand_name,
-      'brand': instance.brand,
       'clothing_type': instance.clothing_type,
       'size': instance.size,
     };
