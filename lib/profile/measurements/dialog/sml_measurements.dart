@@ -11,10 +11,10 @@ class SmlMeasurements extends StatelessWidget {
     // data =;
     final Map<String, List<({String brandName, String size})>> data = {};
     for (final sizing in user.brandSizings ?? []) {
-      if (data[sizing.brand_name] == null) {
-        data[sizing.brand_name] = [];
+      if (data[sizing.clothing_type] == null) {
+        data[sizing.clothing_type] = [];
       }
-      data[sizing.brand_name]!.add((brandName: sizing.brand_name, size: sizing.size));
+      data[sizing.clothing_type]!.add((brandName: sizing.brand_name, size: sizing.size));
     }
     this.data = data;
   }
