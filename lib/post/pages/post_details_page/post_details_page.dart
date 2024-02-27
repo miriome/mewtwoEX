@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_linkify/flutter_linkify.dart' hide UrlLinkifier, UrlElement;
 
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:mewtwo/base/linkify/hashtag_linkifier.dart';
 import 'package:mewtwo/base/linkify/mention_linkifier.dart';
@@ -14,12 +15,14 @@ import 'package:mewtwo/base/widgets/shoppable_icon.dart';
 import 'package:mewtwo/chats/routes/routes.dart';
 import 'package:mewtwo/constants.dart';
 import 'package:mewtwo/home/model/post_model.dart';
+import 'package:mewtwo/home/model/user_model.dart';
 import 'package:mewtwo/post/pages/post_details_page/comments/comments_section/comments_section_store.dart';
 
 import 'package:mewtwo/post/pages/post_details_page/post_details_page_store.dart';
 import 'package:mewtwo/post/pages/post_details_page/comments/comments_section/comments_section.dart';
 import 'package:mewtwo/post/pages/post_details_page/widgets/post_measurements.dart';
 import 'package:mewtwo/post/pages/post_details_page/widgets/post_options.dart';
+import 'package:mewtwo/profile/measurements/dialog/measurements_view_dialog.dart';
 import 'package:mewtwo/profile/routes/routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mewtwo/post/utils.dart';
@@ -53,13 +56,12 @@ class _PostDetailsPageState extends State<PostDetailsPage> with TickerProviderSt
     store = PostDetailsPageStore(postId: widget.postId, commentsStore: commentsStore)..init();
     commentsStore.reload = () => store.load();
     store.load();
-    imagePageController.addListener(() { 
+    imagePageController.addListener(() {
       if (imagePageController.hasClients) {
         setState(() {
           isPageControllerAttached = true;
         });
       }
-
     });
     super.initState();
   }
@@ -172,7 +174,13 @@ class _PostDetailsPageState extends State<PostDetailsPage> with TickerProviderSt
                             ),
                           if (post.posted_by != null && store.isMeasurementsVisible)
                             PositionedDirectional(
-                                start: 0, end: 0, bottom: 12, child: PostMeasurements(user: post.posted_by!, isMyPost: store.isMyPost,))
+                                start: 0,
+                                end: 0,
+                                bottom: 12,
+                                child: PostMeasurements(
+                                  user: post.posted_by!,
+                                  isMyPost: store.isMyPost,
+                                ))
                         ],
                       ),
                     ),
@@ -251,14 +259,26 @@ class _PostDetailsPageState extends State<PostDetailsPage> with TickerProviderSt
         ),
         const Spacer(),
         if (!store.isAdminPost)
-        GestureDetector(
-          onTap: () => store.isMeasurementsVisible = !store.isMeasurementsVisible,
-          child: SvgPicture.asset(
-            'assets/icons/measuring_tape.svg',
-            height: 32,
-            width: 32,
+          GestureDetector(
+            onTap: () {
+              final user = post.posted_by;
+              if (user == null) {
+                return;
+              }
+              if (user.measurementPrivacy == MeasurementPrivacy.following && !user.my_follow && !store.isMyPost) {
+                Fluttertoast.showToast(
+                    msg: "This user has only allowed followers to view their measurements",
+                    gravity: ToastGravity.CENTER);
+                return;
+              }
+              MeasurementsViewDialog.show(context, user);
+            },
+            child: SvgPicture.asset(
+              'assets/icons/measuring_tape.svg',
+              height: 32,
+              width: 32,
+            ),
           ),
-        ),
         if (post.chat_enabled) ...[
           const SizedBox(width: 16),
           IconButton(
