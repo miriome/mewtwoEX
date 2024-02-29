@@ -19,12 +19,14 @@ abstract class _SmlMeasurementFormStore with Store {
   Set<String> get availableClothingTypes => brandSizings.map((e) => e.clothing_type).toSet();
 
   List<String> getBrandOptions({required String clothingType, required int sizingIndex}) {
-    return brandSizings
+    final sizings = brandSizings
         .where((element) => element.clothing_type == clothingType)
         .where((element) => clothingSizings[clothingType]![sizingIndex].size.isEmpty || element.size == clothingSizings[clothingType]![sizingIndex].size)
+        // .where((element) => !(clothingSizings[clothingType]?.map((element) => element.brandName).contains(element.brand_name) ?? true))
         .map((e) => e.brand_name)
         .toSet()
         .toList();
+    return sizings;
   }
 
   List<String> getSizeOptions({required String clothingType, required int sizingIndex}) {
@@ -32,6 +34,7 @@ abstract class _SmlMeasurementFormStore with Store {
     .where((element) => clothingSizings[clothingType]![sizingIndex].brandName.isEmpty || element.brand_name == (clothingSizings[clothingType]![sizingIndex].brandName))
     .map((e) => e.size).toSet().toList();
   }
+
 
   @action
   void addSize(String category) {

@@ -59,11 +59,7 @@ class SmlMeasurementForm extends StatelessWidget {
         const SizedBox(
           height: 16,
         ),
-        ...formStore.clothingSizings[clothingType]?.mapIndexed((index, _) => buildBrandSize(clothingType, index)) ??
-            [],
-        const SizedBox(
-          height: 8,
-        ),
+        ...formStore.clothingSizings[clothingType]?.mapIndexed((index, _) => buildBrandSize(clothingType, index)) ?? [],
         GestureDetector(
           onTap: () {
             formStore.addSize(clothingType);
@@ -75,7 +71,7 @@ class SmlMeasurementForm extends StatelessWidget {
           ),
         ),
         const SizedBox(
-          height: 8,
+          height: 16,
         ),
       ],
     );
@@ -84,100 +80,121 @@ class SmlMeasurementForm extends StatelessWidget {
   Widget buildBrandSize(String clothingType, int index) {
     final formStore = store.smlMeasurementStore;
     final brandSizing = formStore.clothingSizings[clothingType]![index];
-    return Observer(builder: (context) {
-      return Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Flexible(
-            child: FormBuilderDropdown(
-              key: ValueKey("${brandSizing.key}_brand"),
-                name: "${brandSizing.key}_brand",
-                items: formStore
-                    .getBrandOptions(clothingType: clothingType, sizingIndex: index)
-                    .map((e) => DropdownMenuItem(value: e, child: Text(e, overflow: TextOverflow.ellipsis)))
-                    .toList(),
-                initialValue: brandSizing.brandName,
-                validator: FormBuilderValidators.required(),
-                onChanged: (text) {
-                  if (text != null) {
-                    brandSizing.brandName = text;
-                  }
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Observer(builder: (context) {
+        return Row(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Flexible(
+              child: FormBuilderDropdown(
+                  key: ValueKey("${brandSizing.key}_brand"),
+                  name: "${brandSizing.key}_brand",
+                  items: formStore
+                      .getBrandOptions(clothingType: clothingType, sizingIndex: index)
+                      .map((e) => DropdownMenuItem(value: e, child: Text(e, overflow: TextOverflow.ellipsis)))
+                      .toList(),
+                  initialValue: brandSizing.brandName,
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(errorText: "Select a brand"),
+                    (val) {
+                      final brandNamesInClothingType = formStore.clothingSizings[clothingType]
+                              ?.map((element) => element.brandName).toList() ?? [];
+                      if (brandNamesInClothingType.count((brandName) => val == brandName) > 1) {
+                        return "Repeated brand, please select another";
+                      }
+                      return null;
+                    }
+                  ]),
+                  onChanged: (text) {
+                    if (text != null) {
+                      brandSizing.brandName = text;
+                      if (!store.formKey.currentState!.isValid) {
+                        store.formKey.currentState!.validate();
+                      }
+                      
+                    }
+                  },
+                  decoration: InputDecoration(
+                      labelText: "Brand",
+                      hintText: 'Select Brand',
+                      errorStyle: const TextStyle(fontSize: 8),
+                      errorMaxLines: 2,
+                      floatingLabelStyle: TextStyle(
+                          color: brandSizing.brandName.isNotEmpty ? Theme.of(context).primaryColor : Colors.black),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(
+                              color: brandSizing.brandName.isNotEmpty ? Theme.of(context).primaryColor : Colors.black)),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(
+                              color: brandSizing.brandName.isNotEmpty ? Theme.of(context).primaryColor : Colors.black)),
+                      floatingLabelBehavior: FloatingLabelBehavior.always)),
+            ),
+            const SizedBox(
+              width: 12,
+            ),
+            Flexible(
+              child: FormBuilderDropdown(
+                  key: ValueKey("${brandSizing.key}_size"),
+                  name: "${brandSizing.key}_size",
+                  validator: FormBuilderValidators.required(errorText: "Select a size"),
+                  initialValue: brandSizing.size,
+                  items: formStore
+                      .getSizeOptions(clothingType: clothingType, sizingIndex: index)
+                      .map((e) => DropdownMenuItem(
+                          value: e,
+                          child: Text(
+                            e,
+                          )))
+                      .toList(),
+                  onChanged: (text) {
+                    if (text != null) {
+                      brandSizing.size = text;
+                      store.formKey.currentState!.validate();
+                    }
+                  },
+                  decoration: InputDecoration(
+                      errorStyle: const TextStyle(fontSize: 8),
+                      floatingLabelStyle:
+                          TextStyle(color: brandSizing.size.isNotEmpty ? Theme.of(context).primaryColor : Colors.black),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(
+                              color: brandSizing.size.isNotEmpty ? Theme.of(context).primaryColor : Colors.black)),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(
+                              color: brandSizing.size.isNotEmpty ? Theme.of(context).primaryColor : Colors.black)),
+                      labelText: "Size",
+                      hintText: 'Select Size',
+                      errorMaxLines: 2,
+                      floatingLabelBehavior: FloatingLabelBehavior.always)),
+            ),
+            const SizedBox(
+              width: 12,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 16.0),
+              child: GestureDetector(
+                onTap: () {
+                  formStore.removeSize(clothingType: clothingType, index: index);
+                  store.formKey.currentState!.removeInternalFieldValue("${brandSizing.key}_size");
+                  store.formKey.currentState!.removeInternalFieldValue("${brandSizing.key}_brand");
+                  store.formKey.currentState!.validate();
                 },
-                decoration: InputDecoration(
-                    labelText: "Brand",
-                    helperText: "",
-                    hintText: 'Select Brand',
-                    floatingLabelStyle: TextStyle(
-                        color: brandSizing.brandName.isNotEmpty ? Theme.of(context).primaryColor : Colors.black),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(
-                            color: brandSizing.brandName.isNotEmpty ? Theme.of(context).primaryColor : Colors.black)),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(
-                            color: brandSizing.brandName.isNotEmpty ? Theme.of(context).primaryColor : Colors.black)),
-                    floatingLabelBehavior: FloatingLabelBehavior.always)),
-          ),
-          const SizedBox(
-            width: 12,
-          ),
-          Flexible(
-            child: FormBuilderDropdown(
-              key: ValueKey("${brandSizing.key}_size"),
-                name: "${brandSizing.key}_size",
-                validator: FormBuilderValidators.required(),
-                initialValue: brandSizing.size,
-                items: formStore
-                    .getSizeOptions(clothingType: clothingType, sizingIndex: index)
-                    .map((e) => DropdownMenuItem(
-                        value: e,
-                        child: Text(
-                          e,
-                        )))
-                    .toList(),
-                onChanged: (text) {
-                  if (text != null) {
-                    brandSizing.size = text;
-                  }
-                },
-                decoration: InputDecoration(
-                  helperText: "",
-                    floatingLabelStyle:
-                        TextStyle(color: brandSizing.size.isNotEmpty ? Theme.of(context).primaryColor : Colors.black),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(
-                            color: brandSizing.size.isNotEmpty ? Theme.of(context).primaryColor : Colors.black)),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(
-                            color: brandSizing.size.isNotEmpty ? Theme.of(context).primaryColor : Colors.black)),
-                    labelText: "Size",
-                    hintText: 'Select Size',
-                    floatingLabelBehavior: FloatingLabelBehavior.always)),
-          ),
-          const SizedBox(
-            width: 12,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 16.0),
-            child: GestureDetector(
-              onTap: () {
-                formStore.removeSize(clothingType: clothingType, index: index);
-                store.formKey.currentState!.removeInternalFieldValue("${brandSizing.key}_size");
-                store.formKey.currentState!.removeInternalFieldValue("${brandSizing.key}_brand");
-                store.formKey.currentState!.validate();
-              },
-              child: SvgPicture.asset(
-                'assets/icons/ic_remove2.svg',
-                height: 32,
-                width: 32,
+                child: SvgPicture.asset(
+                  'assets/icons/ic_remove2.svg',
+                  height: 32,
+                  width: 32,
+                ),
               ),
             ),
-          ),
-        ],
-      );
-    });
+          ],
+        );
+      }),
+    );
   }
 }
