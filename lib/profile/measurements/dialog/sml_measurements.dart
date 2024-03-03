@@ -66,35 +66,39 @@ class SmlMeasurements extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Flexible(
-            child: TextField(
-              controller: TextEditingController()..text = data[clothingType]![index].brandName,
-                decoration: InputDecoration(
-                    labelText: "Brand",
-                    helperText: "",
-                    hintText: 'Select Brand',
-                    floatingLabelStyle: const TextStyle(color: Colors.black),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: Color(0xFF8474A1))),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: Color(0xFF8474A1))),
-                    floatingLabelBehavior: FloatingLabelBehavior.always)),
+            child: IgnorePointer(
+              child: TextField(
+                controller: TextEditingController()..text = data[clothingType]![index].brandName,
+                  decoration: InputDecoration(
+                      labelText: "Brand",
+                      helperText: "",
+                      hintText: 'Select Brand',
+                      floatingLabelStyle: const TextStyle(color: Colors.black),
+                      // focusedBorder: OutlineInputBorder(
+                      //     borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: Color(0xFF8474A1))),
+                      disabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: Color(0xFF8474A1))),
+                      floatingLabelBehavior: FloatingLabelBehavior.always)),
+            ),
           ),
           const SizedBox(
             width: 12,
           ),
           Flexible(
-            child: TextField(
-              controller: TextEditingController()..text = data[clothingType]![index].size,
-                decoration: InputDecoration(
-                    helperText: "",
-                    floatingLabelStyle: const TextStyle(color: Colors.black),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: Color(0xFF8474A1))),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: Color(0xFF8474A1))),
-                    labelText: "Size",
-                    hintText: 'Select Size',
-                    floatingLabelBehavior: FloatingLabelBehavior.always)),
+            child: IgnorePointer(
+              child: TextField(
+                controller: TextEditingController()..text = data[clothingType]![index].size,
+                  decoration: InputDecoration(
+                      helperText: "",
+                      floatingLabelStyle: const TextStyle(color: Colors.black),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: Color(0xFF8474A1))),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: Color(0xFF8474A1))),
+                      labelText: "Size",
+                      hintText: 'Select Size',
+                      floatingLabelBehavior: FloatingLabelBehavior.always)),
+            ),
           ),
         ],
       );

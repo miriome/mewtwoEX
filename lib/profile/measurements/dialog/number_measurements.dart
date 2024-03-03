@@ -12,64 +12,70 @@ class NumberMeasurements extends StatelessWidget {
         const SizedBox(
           height: 8,
         ),
-        TextField(
-          controller: TextEditingController()..text = user.height ?? "",
-          maxLength: 3,
-          decoration: const InputDecoration(
-              labelText: "Height",
-              counterText: "",
-              suffixIcon: Padding(
-                  padding: EdgeInsets.all(15),
-                  child: Text(
-                    'cm',
-                    style: TextStyle(
-                        color: Color(
-                          0xFF7D7878,
-                        ),
-                        fontSize: 16),
-                  ))),
+        IgnorePointer(
+          child: TextField(
+            controller: TextEditingController()..text = user.height ?? "",
+            maxLength: 3,
+            decoration: const InputDecoration(
+                labelText: "Height",
+                counterText: "",
+                suffixIcon: Padding(
+                    padding: EdgeInsets.all(15),
+                    child: Text(
+                      'cm',
+                      style: TextStyle(
+                          color: Color(
+                            0xFF7D7878,
+                          ),
+                          fontSize: 16),
+                    ))),
+          ),
         ),
         const SizedBox(
           height: 12,
         ),
-        TextField(
-          controller: TextEditingController()..text = user.bust ?? "",
-          keyboardType: TextInputType.number,
-          maxLength: 3,
-          decoration: const InputDecoration(
-              counterText: "",
-              labelText: "Bust",
-              suffixIcon: Padding(
-                  padding: EdgeInsets.all(15),
-                  child: Text(
-                    'in',
-                    style: TextStyle(
-                        color: Color(
-                          0xFF7D7878,
-                        ),
-                        fontSize: 16),
-                  ))),
+        IgnorePointer(
+          child: TextField(
+            controller: TextEditingController()..text = user.bust ?? "",
+            keyboardType: TextInputType.number,
+            maxLength: 3,
+            decoration: const InputDecoration(
+                counterText: "",
+                labelText: "Bust",
+                suffixIcon: Padding(
+                    padding: EdgeInsets.all(15),
+                    child: Text(
+                      'in',
+                      style: TextStyle(
+                          color: Color(
+                            0xFF7D7878,
+                          ),
+                          fontSize: 16),
+                    ))),
+          ),
         ),
         const SizedBox(
           height: 12,
         ),
-        TextField(
-          controller: TextEditingController()..text = user.waist ?? "",
-          maxLength: 3,
-          keyboardType: TextInputType.number,
-          decoration: const InputDecoration(
-              counterText: "",
-              labelText: "Waist",
-              suffixIcon: Padding(
-                  padding: EdgeInsets.all(15),
-                  child: Text(
-                    'in',
-                    style: TextStyle(
-                        color: Color(
-                          0xFF7D7878,
-                        ),
-                        fontSize: 16),
-                  ))),
+        IgnorePointer(
+          child: TextField(
+            controller: TextEditingController()..text = user.waist ?? "",
+            maxLength: 3,
+            keyboardType: TextInputType.number,
+            decoration: const InputDecoration(
+                counterText: "",
+                labelText: "Waist",
+                suffixIcon: Padding(
+                    padding: EdgeInsets.all(15),
+                    child: Text(
+                      'in',
+                      style: TextStyle(
+                          color: Color(
+                            0xFF7D7878,
+                          ),
+                          fontSize: 16),
+                    ))),
+          ),
         ),
         const SizedBox(
           height: 12,
