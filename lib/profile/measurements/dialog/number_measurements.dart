@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mewtwo/home/model/user_model.dart';
+import 'package:mewtwo/utils.dart';
 
 class NumberMeasurements extends StatelessWidget {
   final UserModel user;
@@ -14,7 +15,10 @@ class NumberMeasurements extends StatelessWidget {
         ),
         IgnorePointer(
           child: TextField(
-            controller: TextEditingController()..text = user.height ?? "",
+            controller: TextEditingController()
+              ..text = user.hips != null
+                  ? (Utility.parseInt(user.height!) > 0 ? Utility.parseInt(user.height!).toString() : "")
+                  : "",
             maxLength: 3,
             decoration: const InputDecoration(
                 labelText: "Height",
@@ -36,7 +40,8 @@ class NumberMeasurements extends StatelessWidget {
         ),
         IgnorePointer(
           child: TextField(
-            controller: TextEditingController()..text = user.bust ?? "",
+            controller: TextEditingController()
+              ..text = user.bust != null ? (Utility.parseInt(user.bust!) > 0 ? Utility.parseInt(user.bust!).toString() : "") : "",
             keyboardType: TextInputType.number,
             maxLength: 3,
             decoration: const InputDecoration(
@@ -59,7 +64,8 @@ class NumberMeasurements extends StatelessWidget {
         ),
         IgnorePointer(
           child: TextField(
-            controller: TextEditingController()..text = user.waist ?? "",
+            controller: TextEditingController()
+              ..text = user.waist != null ? (Utility.parseInt(user.waist!) > 0 ? Utility.parseInt(user.waist!).toString() : "") : "",
             maxLength: 3,
             keyboardType: TextInputType.number,
             decoration: const InputDecoration(
@@ -80,23 +86,26 @@ class NumberMeasurements extends StatelessWidget {
         const SizedBox(
           height: 12,
         ),
-        TextField(
-          controller: TextEditingController()..text = user.hips ?? "",
-          maxLength: 3,
-          keyboardType: TextInputType.number,
-          decoration: const InputDecoration(
-              counterText: "",
-              labelText: "Hips",
-              suffixIcon: Padding(
-                  padding: EdgeInsets.all(15),
-                  child: Text(
-                    'in',
-                    style: TextStyle(
-                        color: Color(
-                          0xFF7D7878,
-                        ),
-                        fontSize: 16),
-                  ))),
+        IgnorePointer(
+          child: TextField(
+            controller: TextEditingController()
+              ..text = user.hips != null ? (Utility.parseInt(user.hips!) > 0 ? Utility.parseInt(user.hips!).toString() : "") : "",
+            maxLength: 3,
+            keyboardType: TextInputType.number,
+            decoration: const InputDecoration(
+                counterText: "",
+                labelText: "Hips",
+                suffixIcon: Padding(
+                    padding: EdgeInsets.all(15),
+                    child: Text(
+                      'in',
+                      style: TextStyle(
+                          color: Color(
+                            0xFF7D7878,
+                          ),
+                          fontSize: 16),
+                    ))),
+          ),
         ),
         const SizedBox(
           height: 16,

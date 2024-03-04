@@ -120,7 +120,6 @@ const NumberMeasurementForm({ Key? key, required this.store }) : super(key: key)
               },
               maxLength: 3,
               keyboardType: TextInputType.number,
-              initialValue: store.hips?.toString(),
               onSaved: (text) {
                 if (text != null) {
                   store.hips = int.tryParse(text);

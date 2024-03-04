@@ -84,7 +84,8 @@ class SmlMeasurements extends StatelessWidget {
           const SizedBox(
             width: 12,
           ),
-          Flexible(
+          SizedBox(
+            width: 50,
             child: IgnorePointer(
               child: TextField(
                 controller: TextEditingController()..text = data[clothingType]![index].size,
