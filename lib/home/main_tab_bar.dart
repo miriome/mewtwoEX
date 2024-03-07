@@ -1,10 +1,17 @@
+import 'dart:math';
+
+import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mewtwo/config/app_upgrade_dialog/app_upgrade_dialog.dart';
+import 'package:mewtwo/constants.dart';
+import 'package:mewtwo/home/pages/notification_page/providers/providers.dart';
 import 'package:mewtwo/mew.dart';
 import 'package:mewtwo/routes/routes.dart';
 import 'package:mewtwo/post/routes/routes.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class MainTabBar extends StatefulWidget {
@@ -65,6 +72,11 @@ class _MainTabBarState extends State<MainTabBar> {
                     ImageSummaryEditPageRoute(showCameraOptionsOnEnter: false).push(context);
                     return;
                   }
+                  if (index == 3) {
+                    final notifications = Mew.pc.read(notificationsWithStatusProvider).valueOrNull ?? [];
+                    final largestId = notifications.map((e) => int.tryParse(e.notification.id) ?? -1).max() ?? -1;
+                    SharedPreferences.getInstance().then((sp) => sp.setInt(Constants.kLastUnreadNotif, largestId));
+                  }
                   widget.child.goBranch(
                     index,
                   );
@@ -88,8 +100,28 @@ class _MainTabBarState extends State<MainTabBar> {
                         width: 35,
                       )),
                   const BottomNavigationBarItem(label: "", icon: Icon(Icons.add_circle)),
-                  const BottomNavigationBarItem(
-                      label: "", icon: Icon(Icons.notifications_outlined), activeIcon: Icon(Icons.notifications)),
+                  BottomNavigationBarItem(
+                      label: "", icon: Consumer(
+                        builder: (context, ref, child) {
+                          final unreadNotificationsData = ref.watch(hasUnreadNotificationsProvider);
+                          final hasUnread = unreadNotificationsData.valueOrNull ?? false;
+                          return Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              const Icon(Icons.notifications_outlined),
+                              if (hasUnread)
+                              PositionedDirectional(
+                                top: 0,
+                                end: 04,
+                                child: Container(
+                                height: 12,
+                                width: 12,
+                                decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.red),
+                              ))
+                            ],
+                          );
+                        }
+                      ), activeIcon: const Icon(Icons.notifications)),
                   const BottomNavigationBarItem(
                       label: "", icon: Icon(Icons.person_outline), activeIcon: Icon(Icons.person)),
                 ])),

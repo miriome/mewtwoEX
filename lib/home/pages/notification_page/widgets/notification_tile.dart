@@ -10,7 +10,8 @@ import 'package:mewtwo/utils.dart';
 
 class NotificationTile extends StatelessWidget {
   final NotificationModel notification;
-  const NotificationTile({Key? key, required this.notification}) : super(key: key);
+  final bool isUnread;
+  const NotificationTile({Key? key, required this.notification, required this.isUnread}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

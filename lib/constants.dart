@@ -6,6 +6,7 @@ class Constants {
   static const String kKeyPronouns = "k_pronouns";
   static const String kKeyStyles = "k_styles";
   static const String kKeyToken = "k_access_token";
+  static const String kLastUnreadNotif = "k_unread_notif";
 
   // TODO: Migrate this to DB.
   static const List<String> kStyles = [

@@ -35,6 +35,6 @@ class SearchPageRoute extends GoRouteData {
 class NotificationPageRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return NotificationPage();
+    return const NotificationPage();
   }
 }
