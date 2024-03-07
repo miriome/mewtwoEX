@@ -158,7 +158,7 @@ class _UpsertPostBaseState extends State<UpsertPostBase> {
             scrollDirection: Axis.horizontal,
             separatorBuilder: (_, __) => const SizedBox(width: 8,),
             itemBuilder: (context, index) {
-              if (index < 10 && index == widget.store.postImagePaths.length) {
+              if (index < 5 && index == widget.store.postImagePaths.length) {
                 return GestureDetector(
                   onTap: () {
                     // We use watch so that the state remains alive for the next page to attach in.
@@ -179,7 +179,7 @@ class _UpsertPostBaseState extends State<UpsertPostBase> {
               }
               return buildPostImageItem(index: index);
             },
-            itemCount: widget.store.postImagePaths.length + 1,
+            itemCount: widget.store.postImagePaths.length == 5 ? 5 : widget.store.postImagePaths.length  + 1,
           ),
         );
       });

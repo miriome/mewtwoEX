@@ -24,7 +24,7 @@ final _getUpgradeInfoDataProvider = AutoDisposeFutureProvider<
 
 typedef _GetUpgradeInfoDataRef
     = AutoDisposeFutureProviderRef<List<({bool forceUpgrade, String version})>>;
-String _$needUpdateHash() => r'abdb31dfeb500a2117065f128c809f0ee8142110';
+String _$needUpdateHash() => r'4aa1318cbb23d508b96ac4a68fe895dc26bd9512';
 
 /// Null means no update.
 /// bool means dismissable or non dismissable update

@@ -10,6 +10,7 @@ import 'package:mewtwo/home/model/user_model.dart';
 import 'package:mewtwo/mew.dart';
 import 'package:mewtwo/networking/networking.dart';
 import 'package:mewtwo/post/routes/routes.dart';
+import 'package:mewtwo/profile/measurements/dialog/measurements_view_dialog.dart';
 import 'package:mewtwo/profile/profile_page/profile_page_store.dart';
 import 'package:mewtwo/profile/profile_page/widgets/profile_options.dart';
 import 'package:mewtwo/profile/profile_page/widgets/profile_post_tile.dart';
@@ -59,7 +60,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
               children: [
                 const SizedBox(height: 16),
                 if (!store.isAdminProfile) ...[
-                  measurements,
+                  buildMeasurements(),
                   const SizedBox(height: 14),
                 ],
                 relationStatistics,
@@ -171,33 +172,24 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     );
   }
 
-  Widget get measurements {
-    final user = store.user;
-    if (!store.isOwnProfile && user != null) {
-      if (user.measurementPrivacy == MeasurementPrivacy.following && !user.my_follow) {
-        return const Text(
-          "This user has only allowed followers to view their measurements.",
-          textAlign: TextAlign.center,
-        );
-      }
-    }
-
-    // Change this to dynamic lmao
-    const heightUnits = "cm";
-    const otherUnits = "in";
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          "Height: ${(store.user?.height == null || int.tryParse(store.user!.height!) == null) ? "-" : int.tryParse(store.user!.height!)} $heightUnits",
-          style: GoogleFonts.roboto(color: const Color(0xFF7D7878), fontSize: 14),
-        ),
-        Text(
-          "Bust: ${(store.user?.bust == null || int.tryParse(store.user!.bust!) == null) ? "-" : int.tryParse(store.user!.bust!)} $otherUnits | Waist: ${(store.user?.waist == null || int.tryParse(store.user!.waist!) == null) ? "-" : int.tryParse(store.user!.waist!)} $otherUnits | Hips: ${(store.user?.hips == null || int.tryParse(store.user!.hips!) == null) ? "-" : int.tryParse(store.user!.hips!)} $otherUnits",
-          style: GoogleFonts.roboto(color: const Color(0xFF7D7878), fontSize: 14),
-        )
-      ],
-    );
+  Widget buildMeasurements() {
+    return GestureDetector(
+            onTap: () {MeasurementsViewDialog.show(context, store.user!);},
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+              decoration: BoxDecoration(
+                  border: Border.all(color: const Color(0xFF8474A1), width: (store.isFollowingUser) ? 0 : 2),
+                  color: const Color(0xFF8474A1),
+                  borderRadius: BorderRadius.circular(20)),
+              child: const Text(
+                "Measurements",
+                style: TextStyle(
+                    color:Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700),
+              ),
+            ),
+          );
   }
 
   Widget get relationStatistics {

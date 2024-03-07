@@ -20,6 +20,7 @@ class OtherProfilePageRoute extends GoRouteData {
 }
 
 class CreateProfileRoute extends GoRouteData {
+  static final GlobalKey<NavigatorState> $parentNavigatorKey = rootNavigatorKey; // TODO: Make this better.
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return CreateProfilePage();
@@ -27,7 +28,6 @@ class CreateProfileRoute extends GoRouteData {
 }
 
 class EditProfileRoute extends GoRouteData {
-  static final GlobalKey<NavigatorState> $parentNavigatorKey = rootNavigatorKey; // TODO: Make this better.
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const EditProfilePage();
@@ -35,6 +35,7 @@ class EditProfileRoute extends GoRouteData {
 }
 
 class CreateMeasurementsRoute extends GoRouteData {
+  static final GlobalKey<NavigatorState> $parentNavigatorKey = rootNavigatorKey; // TODO: Make this better.
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const CreateMeasurementsPage();

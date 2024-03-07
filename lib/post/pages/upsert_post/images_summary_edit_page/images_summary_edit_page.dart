@@ -280,11 +280,12 @@ class _ImagesSummaryEditPageState extends ConsumerState<ImagesSummaryEditPage> {
                 onPressed: () async {
                   final images = await picker.pickMultiImage();
                   if (modalContext.mounted) {
-                    if (images.length > 10) {
+                    if (images.length > 5) {
                       Fluttertoast.showToast(
-                          msg: "Selected more than 10 images, selecting only the first 10",
+                          timeInSecForIosWeb: 2,
+                          msg: "Selected more than 5 images, selecting only the first 5",
                           gravity: ToastGravity.CENTER);
-                      Navigator.pop(modalContext, images.getRange(0, 10));
+                      Navigator.pop(modalContext, images.getRange(0, 5).toList());
                       return;
                     }
                     Navigator.pop(modalContext, images);

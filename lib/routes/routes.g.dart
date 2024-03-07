@@ -164,15 +164,17 @@ RouteBase get $mainTabShellRoute => StatefulShellRouteData.$route(
                 ),
                 GoRouteData.$route(
                   path: 'create-profile',
+                  parentNavigatorKey: CreateProfileRoute.$parentNavigatorKey,
                   factory: $CreateProfileRouteExtension._fromState,
                 ),
                 GoRouteData.$route(
                   path: 'edit-profile',
-                  parentNavigatorKey: EditProfileRoute.$parentNavigatorKey,
                   factory: $EditProfileRouteExtension._fromState,
                 ),
                 GoRouteData.$route(
                   path: 'create-measurements',
+                  parentNavigatorKey:
+                      CreateMeasurementsRoute.$parentNavigatorKey,
                   factory: $CreateMeasurementsRouteExtension._fromState,
                 ),
                 GoRouteData.$route(

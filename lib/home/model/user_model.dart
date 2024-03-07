@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:mewtwo/home/model/brand_sizing_model.dart';
 import 'package:mewtwo/home/model/post_model.dart';
 import 'package:mewtwo/utils.dart';
 
@@ -32,6 +33,8 @@ class UserModel {
   final String? email, password, pronouns, weight, height, bust, waist, hips;
   final List<PostModel>? posts;
 
+  final List<BrandSizingModel>? brandSizings;
+
   @JsonKey(fromJson: _parseMeasurementPrivacy, toJson: _getMeasurementPrivacy)
   final MeasurementPrivacy measurementPrivacy;
 
@@ -59,6 +62,7 @@ class UserModel {
       required this.waist,
       required this.hips,
       required this.measurementPrivacy,
+      required this.brandSizings,
       this.posts,
       this.email,
       this.password,
