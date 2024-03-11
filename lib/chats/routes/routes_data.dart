@@ -15,6 +15,7 @@ class ChatPageRoute extends GoRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
+    
     return ChatPage(targetId: targetId);
   }
   

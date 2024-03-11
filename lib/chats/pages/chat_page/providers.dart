@@ -22,12 +22,15 @@ Stream<List<Message>> messageHistory(MessageHistoryRef ref, {required int target
   }
   final roomId = ChatUtils.getChatRoomId(firstId: senderId, secondId: targetId);
   final conversationUsers = await ref.watch(ConversationUsersProvider(senderId: senderId, receiverId: targetId).future);
-
+  final lastUnreadTimestamp = (await SharedPreferences.getInstance()).getInt(Constants.kUnreadChat(roomId)) ?? -1;
+  
   final messageStream = FirebaseFirestore.instance.collection("chats").doc(roomId).collection("chat").snapshots();
   await for (final message in messageStream) {
     final messages = message.docs.mapIndexed((index, doc) {
       final data = doc.data();
       final messageModel = MessageModel.fromJson(data);
+
+      
       switch (messageModel.content_type) {
         case "image": {
           final authorModel = messageModel.sender_id == conversationUsers.reciever.id
@@ -60,6 +63,15 @@ Stream<List<Message>> messageHistory(MessageHistoryRef ref, {required int target
       }
     }).toList();
     messages.sort((a, b) => (b.createdAt ?? 0).compareTo(a.createdAt ?? 0));
+    final newestMessage = messages.firstOrNull;
+    // Set unread time
+    if (newestMessage?.createdAt != null) {
+      /// Set last seen time for messages
+      if (newestMessage!.createdAt! > lastUnreadTimestamp) {
+        SharedPreferences.getInstance()
+            .then((sp) => sp.setInt(Constants.kUnreadChat(roomId), newestMessage.createdAt!));
+      }
+    }
     yield messages;
   }
 }

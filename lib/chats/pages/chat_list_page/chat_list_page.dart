@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mewtwo/base/image/cached_network_image_provider.dart';
+import 'package:mewtwo/chats/providers/providers.dart';
 import 'package:mewtwo/chats/routes/routes.dart';
 import 'package:mewtwo/routes/routes.dart';
 import 'package:timeago/timeago.dart' as timeago;
-import 'package:mewtwo/chats/apis/api.dart';
 
 class ChatListPage extends StatelessWidget {
   const ChatListPage({Key? key}) : super(key: key);
@@ -16,7 +16,7 @@ class ChatListPage extends StatelessWidget {
       appBar: AppBar(title: const Text("Chat")),
       body: Consumer(
         builder: (context, ref, child) {
-          final data = ref.watch(getContactsApiProvider);
+          final data = ref.watch(notificationsWithStatusProvider);
           return data.when(
               data: (data) {
                 if (data.isEmpty) {
@@ -34,18 +34,18 @@ class ChatListPage extends StatelessWidget {
                   },
                   padding: const EdgeInsets.symmetric(horizontal: 12),
                   itemBuilder: (context, index) {
-                    final conversation = data[index];
+                    final chatData = data[index];
                     return GestureDetector(
-                      onTap: () => ChatPageRoute(targetId: conversation.target_id).push(context),
+                      onTap: () => ChatPageRoute(targetId: chatData.chat.target_id).push(context),
                       behavior: HitTestBehavior.opaque,
                       child: Row(
                         children: [
                           CircleAvatar(
                             radius: 20,
                             backgroundColor: const Color(0xFF6EC6CA),
-                            foregroundImage: conversation.contactUser.photo_url == "https://miromie.com/uploads/"
+                            foregroundImage: chatData.chat.contactUser.photo_url == "https://miromie.com/uploads/"
                                 ? null
-                                : BBCachedNetworkImageProvider(conversation.contactUser.photo_url,
+                                : BBCachedNetworkImageProvider(chatData.chat.contactUser.photo_url,
                                     targetHeight: 50, targetWidth: 50),
                           ),
                           const SizedBox(
@@ -57,7 +57,7 @@ class ChatListPage extends StatelessWidget {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Text(
-                                  conversation.contactUser.username,
+                                  chatData.chat.contactUser.username,
                                   style: GoogleFonts.roboto(
                                       height: 1,
                                       fontSize: 20,
@@ -65,7 +65,7 @@ class ChatListPage extends StatelessWidget {
                                       color: Theme.of(context).primaryColor),
                                 ),
                                 Text(
-                                  conversation.last_message,
+                                  chatData.chat.last_message,
                                   overflow: TextOverflow.ellipsis,
                                 )
                               ],
@@ -75,7 +75,7 @@ class ChatListPage extends StatelessWidget {
                             width: 12,
                           ),
                           Text(
-                              timeago.format(DateTime.fromMillisecondsSinceEpoch((conversation.last_timestamp) * 1000)))
+                              timeago.format(DateTime.fromMillisecondsSinceEpoch((chatData.chat.last_timestamp) * 1000)))
                         ],
                       ),
                     );

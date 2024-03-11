@@ -7,6 +7,7 @@ class Constants {
   static const String kKeyStyles = "k_styles";
   static const String kKeyToken = "k_access_token";
   static const String kLastUnreadNotif = "k_unread_notif";
+  static String kUnreadChat(String id) => 'k_unread_chat_$id'; // Key for unread chat timestamp
 
   // TODO: Migrate this to DB.
   static const List<String> kStyles = [

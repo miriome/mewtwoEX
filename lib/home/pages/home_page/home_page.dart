@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mewtwo/base/widgets/miromie_title.dart';
+import 'package:mewtwo/chats/providers/providers.dart';
 import 'package:mewtwo/chats/routes/routes.dart';
 import 'package:mewtwo/home/pages/home_page/api/api.dart';
 import 'package:mewtwo/home/pages/home_page/home_page_store.dart';
@@ -98,10 +100,31 @@ class _HomePageState extends State<HomePage> {
         const SizedBox(width: 16),
         GestureDetector(
           onTap: () => ChatListPageRoute().go(context),
-          child: const Icon(
-            Icons.chat_bubble,
-            color: Color(0xFFFFDD94),
-            size: 28,
+          child: Consumer(
+
+            builder: (context, ref, child) {
+              final hasUnread = ref.watch(hasUnreadChatsProvider).valueOrNull ?? false;
+              
+              return Stack(
+                alignment: Alignment.center,
+                children: [
+                  const Icon(
+                    Icons.chat_bubble,
+                    color: Color(0xFFFFDD94),
+                    size: 28,
+                  ),
+                  if (hasUnread)
+                  PositionedDirectional(
+                      top: 0,
+                      end: 0,
+                      child: Container(
+                        height: 12,
+                        width: 12,
+                        decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.red),
+                      ))
+                ],
+              );
+            }
           ),
         ),
         const SizedBox(

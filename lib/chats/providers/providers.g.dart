@@ -7,12 +7,12 @@ part of 'providers.dart';
 // **************************************************************************
 
 String _$notificationsWithStatusHash() =>
-    r'1cf8346eb6e30ee33211f2e27c0a9b0d5b536a1a';
+    r'7c1a04fd887fd42afff5a96075f63e69f88fa0c1';
 
 /// See also [notificationsWithStatus].
 @ProviderFor(notificationsWithStatus)
 final notificationsWithStatusProvider = AutoDisposeFutureProvider<
-    List<({NotificationModel notification, bool unread})>>.internal(
+    List<({ContactModel chat, bool unread})>>.internal(
   notificationsWithStatus,
   name: r'notificationsWithStatusProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -22,23 +22,22 @@ final notificationsWithStatusProvider = AutoDisposeFutureProvider<
   allTransitiveDependencies: null,
 );
 
-typedef NotificationsWithStatusRef = AutoDisposeFutureProviderRef<
-    List<({NotificationModel notification, bool unread})>>;
-String _$hasUnreadNotificationsHash() =>
-    r'ff1daed40828eb52aedccb34832d1fd355be11fa';
+typedef NotificationsWithStatusRef
+    = AutoDisposeFutureProviderRef<List<({ContactModel chat, bool unread})>>;
+String _$hasUnreadChatsHash() => r'da5e1b3aac316aca429fb512eb70705cf1da1bc9';
 
-/// See also [hasUnreadNotifications].
-@ProviderFor(hasUnreadNotifications)
-final hasUnreadNotificationsProvider = AutoDisposeFutureProvider<bool>.internal(
-  hasUnreadNotifications,
-  name: r'hasUnreadNotificationsProvider',
+/// See also [hasUnreadChats].
+@ProviderFor(hasUnreadChats)
+final hasUnreadChatsProvider = AutoDisposeFutureProvider<bool>.internal(
+  hasUnreadChats,
+  name: r'hasUnreadChatsProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$hasUnreadNotificationsHash,
+      : _$hasUnreadChatsHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef HasUnreadNotificationsRef = AutoDisposeFutureProviderRef<bool>;
+typedef HasUnreadChatsRef = AutoDisposeFutureProviderRef<bool>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
