@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mewtwo/base/image/cached_network_image_provider.dart';
 import 'package:mewtwo/chats/providers/providers.dart';
 import 'package:mewtwo/chats/routes/routes.dart';
+import 'package:mewtwo/chats/utils/utils.dart';
 import 'package:mewtwo/routes/routes.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -74,8 +75,17 @@ class ChatListPage extends StatelessWidget {
                           const SizedBox(
                             width: 12,
                           ),
-                          Text(
-                              timeago.format(DateTime.fromMillisecondsSinceEpoch((chatData.chat.last_timestamp) * 1000)))
+                          Text(timeago
+                              .format(DateTime.fromMillisecondsSinceEpoch((chatData.chat.last_timestamp) * 1000))),
+                          if (ChatUtils.isChatUnread(chatData.chat)) ... [
+                            const SizedBox(width: 8,),
+                            Container(
+                              height: 12,
+                              width: 12,
+                              decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.red),
+                            )
+                          ]
+                            
                         ],
                       ),
                     );

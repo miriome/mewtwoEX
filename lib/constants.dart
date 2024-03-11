@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 class Constants {
   static const String kKeyId = "k_id";
   static const String kKeyPronouns = "k_pronouns";
@@ -29,11 +30,13 @@ class Constants {
 
   static late Directory tempDir;
   static late Directory appDocDir;
+  static late SharedPreferences sp;
 
 
   static Future<void> init() async {
     tempDir = await getTemporaryDirectory();
     appDocDir = await getApplicationDocumentsDirectory();
+    sp = await SharedPreferences.getInstance();
   }
 
 }

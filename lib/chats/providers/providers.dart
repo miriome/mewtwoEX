@@ -26,9 +26,7 @@ Future<List<({ContactModel chat, bool unread})>> notificationsWithStatus(Notific
   ref.onDispose(() {timer.cancel();});
 
   return chats.map((chat) {
-    final chatId = ChatUtils.getChatRoomId(firstId: selfId, secondId: chat.target_id);
-    final lastUnreadTimestamp = sp.getInt(Constants.kUnreadChat(chatId)) ?? -1;
-    return (chat: chat, unread: (chat.last_timestamp) > lastUnreadTimestamp);
+    return (chat: chat, unread: ChatUtils.isChatUnread(chat));
   }).toList();
 }
 
