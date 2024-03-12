@@ -2,11 +2,11 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -21,7 +21,9 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
+
 void main() async {
+  
   WidgetsFlutterBinding.ensureInitialized();
   if (Platform.isAndroid) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -69,7 +71,25 @@ class _MyAppState extends State<MyApp> {
     }, onError: (error) {
       Log.instance.d('listSession error: ${error.toString()}');
     });
+    FirebaseMessaging.instance.getInitialMessage().then((value) {
+      processRemoteMessage(value);
+    });
+    FirebaseMessaging.onMessageOpenedApp.listen((event) {
+      processRemoteMessage(event);
+     });
+    
+    
     super.initState();
+  }
+
+  void processRemoteMessage(RemoteMessage? message) {
+    if (message == null) {
+      return;
+    }
+    final deeplink = message.data['deeplink'];
+    if (deeplink is String) {
+      router.go(deeplink);
+    }
   }
 
   final router = GoRouter(

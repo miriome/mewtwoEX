@@ -29,16 +29,9 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     FirebaseMessaging.instance.requestPermission().then((value) async {
       if (value.authorizationStatus == AuthorizationStatus.authorized) {
-        if (Platform.isIOS) {
-          final apnsToken = await FirebaseMessaging.instance.getAPNSToken();
-          if (apnsToken != null) {
-            Mew.pc.read(RegisterPushTokenApiProvider(value: apnsToken));
-          }
-        } else if (Platform.isAndroid) {
-          final fcmToken = await FirebaseMessaging.instance.getToken();
-          if (fcmToken != null) {
-            Mew.pc.read(RegisterPushTokenApiProvider(value: fcmToken));
-          }
+        final fcmToken = await FirebaseMessaging.instance.getToken();
+        if (fcmToken != null) {
+          Mew.pc.read(RegisterPushTokenApiProvider(value: fcmToken));
         }
       }
     });
