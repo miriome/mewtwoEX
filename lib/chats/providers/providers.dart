@@ -14,6 +14,7 @@ part 'providers.g.dart';
 @riverpod
 Future<List<({ContactModel chat, bool unread})>> notificationsWithStatus(NotificationsWithStatusRef ref) async {
   final sp = await SharedPreferences.getInstance();
+  ref.invalidate(getContactsApiProvider);
   final chats = await ref.read(getContactsApiProvider.future);
   final selfId = sp.getInt(Constants.kKeyId);
   if (selfId == null) {
@@ -36,5 +37,7 @@ Future<bool> hasUnreadChats(
 ) async {
   final chatsData = await ref.watch(notificationsWithStatusProvider.future);
   final hasUnread = chatsData.map((e) => e.unread).contains(true);
+  print(hasUnread);
+  
   return hasUnread;
 }

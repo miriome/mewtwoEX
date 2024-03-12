@@ -8,6 +8,8 @@ import 'package:mewtwo/base/image/cached_network_image.dart';
 import 'package:mewtwo/base/image/cached_network_image_provider.dart';
 import 'package:mewtwo/base/stores/current_user_store.dart';
 import 'package:mewtwo/chats/pages/chat_page/providers.dart';
+import 'package:mewtwo/chats/utils/utils.dart';
+import 'package:mewtwo/constants.dart';
 import 'package:mewtwo/home/api/api.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
@@ -34,6 +36,16 @@ class ChatPage extends StatelessWidget {
           switch (messages) {
             case AsyncData(:final value):
               {
+                final roomId = ChatUtils.getChatRoomId(firstId: Constants.sp.getInt(Constants.kKeyId) ?? -1, secondId: targetId);
+                final newestMessage = value[0];
+                final lastUnreadTimestamp = Constants.sp.getInt(Constants.kUnreadChat(roomId)) ?? -1;
+                if (newestMessage.createdAt != null) {
+                  /// Set last seen time for messages
+                  if ((newestMessage.createdAt! ~/ 1000) + 1 > lastUnreadTimestamp) {
+                    Constants.sp.setInt(Constants.kUnreadChat(roomId), (newestMessage.createdAt! ~/ 1000) + 1);
+                        
+                  }
+                }
                 return Chat(
                   theme: DefaultChatTheme(
                       inputTextDecoration: InputDecoration(
