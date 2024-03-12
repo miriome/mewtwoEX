@@ -37,7 +37,6 @@ Future<bool> hasUnreadChats(
 ) async {
   final chatsData = await ref.watch(notificationsWithStatusProvider.future);
   final hasUnread = chatsData.map((e) => e.unread).contains(true);
-  print(hasUnread);
   
   return hasUnread;
 }
