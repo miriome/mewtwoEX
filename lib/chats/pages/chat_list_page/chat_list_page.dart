@@ -58,35 +58,46 @@ class ChatListPage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Text(
-                                  chatData.chat.contactUser.username,
-                                  style: GoogleFonts.roboto(
-                                      height: 1,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w700,
-                                      color: Theme.of(context).primaryColor),
+                                Row(
+                                  children: [
+                                    Text(
+                                      chatData.chat.contactUser.username,
+                                      style: GoogleFonts.roboto(
+                                          height: 1,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w700,
+                                          color: Theme.of(context).primaryColor),
+                                    ),
+                                    const Spacer(),
+                                    Text(timeago.format(
+                                        DateTime.fromMillisecondsSinceEpoch((chatData.chat.last_timestamp) * 1000))),
+                                  ],
                                 ),
-                                Text(
-                                  chatData.chat.last_message,
-                                  overflow: TextOverflow.ellipsis,
-                                )
+                                Row(
+                                  children: [
+                                    ConstrainedBox(
+                                      constraints: const BoxConstraints(maxWidth: 200),
+                                      child: Text(
+                                        chatData.chat.last_message,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    const Spacer(),
+                                    if (ChatUtils.isChatUnread(chatData.chat)) ...[
+                                      SvgPicture.asset(
+                                        "assets/icons/ic_unread_red_dot.svg",
+                                        height: 12,
+                                        width: 12,
+                                      ),
+                                      const SizedBox(
+                                        width: 26,
+                                      )
+                                    ]
+                                  ],
+                                ),
                               ],
                             ),
                           ),
-                          const SizedBox(
-                            width: 12,
-                          ),
-                          Text(timeago
-                              .format(DateTime.fromMillisecondsSinceEpoch((chatData.chat.last_timestamp) * 1000))),
-                          if (ChatUtils.isChatUnread(chatData.chat)) ... [
-                            const SizedBox(width: 8,),
-                            SvgPicture.asset(
-                              "assets/icons/ic_unread_red_dot.svg",
-                              height: 12,
-                              width: 12,
-                            )
-                          ]
-                            
                         ],
                       ),
                     );
