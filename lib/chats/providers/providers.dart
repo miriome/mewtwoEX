@@ -1,6 +1,7 @@
 import 'dart:async';
 
 
+import 'package:dartx/dartx.dart';
 import 'package:mewtwo/chats/apis/api.dart';
 import 'package:mewtwo/chats/models/contact_model.dart';
 import 'package:mewtwo/chats/utils/utils.dart';
@@ -25,8 +26,8 @@ Future<List<({ContactModel chat, bool unread})>> notificationsWithStatus(Notific
     ref.invalidateSelf();
   });
   ref.onDispose(() {timer.cancel();});
-
-  return chats.map((chat) {
+  
+  return chats.sortedByDescending((element) => element.last_timestamp).map((chat) {
     return (chat: chat, unread: ChatUtils.isChatUnread(chat));
   }).toList();
 }

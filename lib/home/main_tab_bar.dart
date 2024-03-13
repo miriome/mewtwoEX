@@ -2,6 +2,7 @@ import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mewtwo/config/app_upgrade_dialog/app_upgrade_dialog.dart';
 import 'package:mewtwo/constants.dart';
@@ -110,12 +111,8 @@ class _MainTabBarState extends State<MainTabBar> {
                               if (hasUnread)
                               PositionedDirectional(
                                 top: 0,
-                                end: 04,
-                                child: Container(
-                                height: 12,
-                                width: 12,
-                                decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.red),
-                              ))
+                                end: 2,
+                                child: SvgPicture.asset("assets/icons/ic_unread_red_dot.svg", height: 14, width: 14,))
                             ],
                           );
                         }

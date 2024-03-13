@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mewtwo/base/image/cached_network_image_provider.dart';
 import 'package:mewtwo/chats/providers/providers.dart';
@@ -79,10 +80,10 @@ class ChatListPage extends StatelessWidget {
                               .format(DateTime.fromMillisecondsSinceEpoch((chatData.chat.last_timestamp) * 1000))),
                           if (ChatUtils.isChatUnread(chatData.chat)) ... [
                             const SizedBox(width: 8,),
-                            Container(
+                            SvgPicture.asset(
+                              "assets/icons/ic_unread_red_dot.svg",
                               height: 12,
                               width: 12,
-                              decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.red),
                             )
                           ]
                             

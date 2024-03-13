@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mewtwo/base/widgets/miromie_title.dart';
 import 'package:mewtwo/chats/providers/providers.dart';
 import 'package:mewtwo/chats/routes/routes.dart';
@@ -110,11 +111,12 @@ class _HomePageState extends State<HomePage> {
                   PositionedDirectional(
                       top: 0,
                       end: 0,
-                      child: Container(
-                        height: 12,
-                        width: 12,
-                        decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.red),
-                      ))
+                      child: Transform.translate(offset: const Offset(2, -2), child: SvgPicture.asset(
+                          "assets/icons/ic_unread_red_dot.svg",
+                          height: 14,
+                          width: 14,
+                        ),)
+                      )
                 ],
               );
             }
