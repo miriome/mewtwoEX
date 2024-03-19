@@ -7,7 +7,7 @@ part of 'providers.dart';
 // **************************************************************************
 
 String _$notificationsWithStatusHash() =>
-    r'91aef4a6ea45ffbae7de6438adb290e427294ffa';
+    r'04b9e59098056617f7396fd2c80e098d81d5485c';
 
 /// See also [notificationsWithStatus].
 @ProviderFor(notificationsWithStatus)
@@ -24,7 +24,7 @@ final notificationsWithStatusProvider = AutoDisposeFutureProvider<
 
 typedef NotificationsWithStatusRef
     = AutoDisposeFutureProviderRef<List<({ContactModel chat, bool unread})>>;
-String _$hasUnreadChatsHash() => r'efe86bef8ade85f67e6ad0da08a125cc8eafca87';
+String _$hasUnreadChatsHash() => r'da5e1b3aac316aca429fb512eb70705cf1da1bc9';
 
 /// See also [hasUnreadChats].
 @ProviderFor(hasUnreadChats)
