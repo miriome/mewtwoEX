@@ -15,22 +15,23 @@ part 'providers.g.dart';
 
 @riverpod
 Stream<List<Message>> messageHistory(MessageHistoryRef ref, {required int targetId}) async* {
-  final sp = await SharedPreferences.getInstance();
-  final senderId = sp.getInt(Constants.kKeyId);
+  
+  final senderId = Constants.sp.getInt(Constants.kKeyId);
   if (senderId == null) {
-    return;
+    return ;
   }
   final roomId = ChatUtils.getChatRoomId(firstId: senderId, secondId: targetId);
   final conversationUsers = await ref.watch(ConversationUsersProvider(senderId: senderId, receiverId: targetId).future);
-
-  final messageStream = FirebaseFirestore.instance.collection("chats").doc(roomId).collection("chat").snapshots();
-  await for (final message in messageStream) {
+  
+  
+  final messageStream = FirebaseFirestore.instance.collection("chats").doc(roomId).collection("chat").snapshots().map((message) {
     final messages = message.docs.mapIndexed((index, doc) {
       final data = doc.data();
       final messageModel = MessageModel.fromJson(data);
       switch (messageModel.content_type) {
-        case "image": {
-          final authorModel = messageModel.sender_id == conversationUsers.reciever.id
+        case "image":
+          {
+            final authorModel = messageModel.sender_id == conversationUsers.reciever.id
                 ? conversationUsers.reciever
                 : conversationUsers.sender;
             final user = User(id: authorModel.id.toString(), imageUrl: authorModel.photo_url);
@@ -38,12 +39,11 @@ Stream<List<Message>> messageHistory(MessageHistoryRef ref, {required int target
                 name: "name",
                 size: 50,
                 uri: messageModel.message,
-                
                 author: user,
                 id: index.toString(),
                 createdAt: messageModel.time.floor() * 1000);
             return message;
-        }
+          }
         default:
           {
             final authorModel = messageModel.sender_id == conversationUsers.reciever.id
@@ -60,8 +60,13 @@ Stream<List<Message>> messageHistory(MessageHistoryRef ref, {required int target
       }
     }).toList();
     messages.sort((a, b) => (b.createdAt ?? 0).compareTo(a.createdAt ?? 0));
+    return messages;
+  });
+  await for (final messages in messageStream ) {
     yield messages;
   }
+  
+  
 }
 
 @riverpod

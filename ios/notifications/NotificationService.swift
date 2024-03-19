@@ -7,6 +7,7 @@
 
 import UserNotifications
 
+
 class NotificationService: UNNotificationServiceExtension {
 
     var contentHandler: ((UNNotificationContent) -> Void)?
@@ -18,9 +19,8 @@ class NotificationService: UNNotificationServiceExtension {
         if let bestAttemptContent = bestAttemptContent {
             // Modify the notification content here...
             // Currently dont need to modify
-//            bestAttemptContent.title = "\(bestAttemptContent.title) [modified]"
-            
             contentHandler(bestAttemptContent)
+
         }
     }
     

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mewtwo/base/image/cached_network_image_provider.dart';
+import 'package:mewtwo/chats/providers/providers.dart';
 import 'package:mewtwo/chats/routes/routes.dart';
+import 'package:mewtwo/chats/utils/utils.dart';
 import 'package:mewtwo/routes/routes.dart';
 import 'package:timeago/timeago.dart' as timeago;
-import 'package:mewtwo/chats/apis/api.dart';
 
 class ChatListPage extends StatelessWidget {
   const ChatListPage({Key? key}) : super(key: key);
@@ -16,7 +18,7 @@ class ChatListPage extends StatelessWidget {
       appBar: AppBar(title: const Text("Chat")),
       body: Consumer(
         builder: (context, ref, child) {
-          final data = ref.watch(getContactsApiProvider);
+          final data = ref.watch(notificationsWithStatusProvider);
           return data.when(
               data: (data) {
                 if (data.isEmpty) {
@@ -34,18 +36,18 @@ class ChatListPage extends StatelessWidget {
                   },
                   padding: const EdgeInsets.symmetric(horizontal: 12),
                   itemBuilder: (context, index) {
-                    final conversation = data[index];
+                    final chatData = data[index];
                     return GestureDetector(
-                      onTap: () => ChatPageRoute(targetId: conversation.target_id).push(context),
+                      onTap: () => ChatPageRoute(targetId: chatData.chat.target_id).push(context),
                       behavior: HitTestBehavior.opaque,
                       child: Row(
                         children: [
                           CircleAvatar(
                             radius: 20,
                             backgroundColor: const Color(0xFF6EC6CA),
-                            foregroundImage: conversation.contactUser.photo_url == "https://miromie.com/uploads/"
+                            foregroundImage: chatData.chat.contactUser.photo_url == "https://miromie.com/uploads/"
                                 ? null
-                                : BBCachedNetworkImageProvider(conversation.contactUser.photo_url,
+                                : BBCachedNetworkImageProvider(chatData.chat.contactUser.photo_url,
                                     targetHeight: 50, targetWidth: 50),
                           ),
                           const SizedBox(
@@ -56,26 +58,46 @@ class ChatListPage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Text(
-                                  conversation.contactUser.username,
-                                  style: GoogleFonts.roboto(
-                                      height: 1,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w700,
-                                      color: Theme.of(context).primaryColor),
+                                Row(
+                                  children: [
+                                    Text(
+                                      chatData.chat.contactUser.username,
+                                      style: GoogleFonts.roboto(
+                                          height: 1,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w700,
+                                          color: Theme.of(context).primaryColor),
+                                    ),
+                                    const Spacer(),
+                                    Text(timeago.format(
+                                        DateTime.fromMillisecondsSinceEpoch((chatData.chat.last_timestamp) * 1000))),
+                                  ],
                                 ),
-                                Text(
-                                  conversation.last_message,
-                                  overflow: TextOverflow.ellipsis,
-                                )
+                                Row(
+                                  children: [
+                                    ConstrainedBox(
+                                      constraints: const BoxConstraints(maxWidth: 200),
+                                      child: Text(
+                                        chatData.chat.last_message,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    const Spacer(),
+                                    if (ChatUtils.isChatUnread(chatData.chat)) ...[
+                                      SvgPicture.asset(
+                                        "assets/icons/ic_unread_red_dot.svg",
+                                        height: 12,
+                                        width: 12,
+                                      ),
+                                      const SizedBox(
+                                        width: 26,
+                                      )
+                                    ]
+                                  ],
+                                ),
                               ],
                             ),
                           ),
-                          const SizedBox(
-                            width: 12,
-                          ),
-                          Text(
-                              timeago.format(DateTime.fromMillisecondsSinceEpoch((conversation.last_timestamp) * 1000)))
                         ],
                       ),
                     );
