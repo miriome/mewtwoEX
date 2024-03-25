@@ -154,6 +154,10 @@ RouteBase get $mainTabShellRoute => StatefulShellRouteData.$route(
               factory: $HomePageRouteExtension._fromState,
               routes: [
                 GoRouteData.$route(
+                  path: 'notifications-page',
+                  factory: $NotificationPageRouteExtension._fromState,
+                ),
+                GoRouteData.$route(
                   path: 'reportContent',
                   parentNavigatorKey: ReportContentRoute.$parentNavigatorKey,
                   factory: $ReportContentRouteExtension._fromState,
@@ -242,8 +246,8 @@ RouteBase get $mainTabShellRoute => StatefulShellRouteData.$route(
         StatefulShellBranchData.$branch(
           routes: [
             GoRouteData.$route(
-              path: '/NotificationPage',
-              factory: $NotificationPageRouteExtension._fromState,
+              path: '/DropsPage',
+              factory: $DropsPageRouteExtension._fromState,
             ),
           ],
         ),
@@ -268,6 +272,24 @@ extension $HomePageRouteExtension on HomePageRoute {
 
   String get location => GoRouteData.$location(
         '/',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $NotificationPageRouteExtension on NotificationPageRoute {
+  static NotificationPageRoute _fromState(GoRouterState state) =>
+      NotificationPageRoute();
+
+  String get location => GoRouteData.$location(
+        '/notifications-page',
       );
 
   void go(BuildContext context) => context.go(location);
@@ -608,12 +630,11 @@ extension $FakeNewPostRouteExtension on FakeNewPostRoute {
   void replace(BuildContext context) => context.replace(location);
 }
 
-extension $NotificationPageRouteExtension on NotificationPageRoute {
-  static NotificationPageRoute _fromState(GoRouterState state) =>
-      NotificationPageRoute();
+extension $DropsPageRouteExtension on DropsPageRoute {
+  static DropsPageRoute _fromState(GoRouterState state) => DropsPageRoute();
 
   String get location => GoRouteData.$location(
-        '/NotificationPage',
+        '/DropsPage',
       );
 
   void go(BuildContext context) => context.go(location);

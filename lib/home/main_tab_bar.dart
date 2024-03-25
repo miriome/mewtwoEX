@@ -99,24 +99,8 @@ class _MainTabBarState extends State<MainTabBar> {
                         width: 35,
                       )),
                   const BottomNavigationBarItem(label: "", icon: Icon(Icons.add_circle)),
-                  BottomNavigationBarItem(
-                      label: "", icon: Consumer(
-                        builder: (context, ref, child) {
-                          final unreadNotificationsData = ref.watch(hasUnreadNotificationsProvider);
-                          final hasUnread = unreadNotificationsData.valueOrNull ?? false;
-                          return Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              const Icon(Icons.notifications_outlined),
-                              if (hasUnread)
-                              PositionedDirectional(
-                                top: 0,
-                                end: 2,
-                                child: SvgPicture.asset("assets/icons/ic_unread_red_dot.svg", height: 14, width: 14,))
-                            ],
-                          );
-                        }
-                      ), activeIcon: const Icon(Icons.notifications)),
+                  const BottomNavigationBarItem(
+                      label: "", icon: Icon(Icons.water_drop_outlined), activeIcon: Icon(Icons.water_drop)),
                   const BottomNavigationBarItem(
                       label: "", icon: Icon(Icons.person_outline), activeIcon: Icon(Icons.person)),
                 ])),

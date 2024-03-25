@@ -56,6 +56,7 @@ class _DropDetailsPageState extends State<DropDetailsPage> with TickerProviderSt
   @override
   void dispose() {
     imagePageController.dispose();
+    transformationController.dispose();
     super.dispose();
   }
 
