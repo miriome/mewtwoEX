@@ -5,33 +5,31 @@ part 'drop_post_model.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class DropPostModel {
+  @JsonKey(fromJson: Utility.parseInt)
   final int id;
   final String title;
-  final String imageUrl;
   @JsonKey(fromJson: Utility.parseBool)
   final bool isPetite;
   final String price;
   final String condition;
-  final String size;
+  final String clothingSize;
   @JsonKey(fromJson: Utility.parseBool)
-  final bool isBuyable;
-  final UserModel userData;
+  final bool isSold;
   final List<DropPostImageModel> images;
 
   final String caption;
 
   DropPostModel(
-      {required this.isBuyable,
+      {required this.isSold,
       required this.id,
       required this.title,
       required this.isPetite,
-      required this.imageUrl,
       required this.images,
       required this.caption,
       required this.price,
       required this.condition,
-      required this.size,
-      required this.userData});
+      required this.clothingSize,
+      });
 
   /// Connect the generated [_$PersonFromJson] function to the `fromJson`
   /// factory.

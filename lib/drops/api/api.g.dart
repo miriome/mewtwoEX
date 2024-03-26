@@ -6,8 +6,23 @@ part of 'api.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getDropPostDetailsApiHash() =>
-    r'b4951e3e0177059e3b3284fcfcfdd977000508bf';
+String _$getNextDropHash() => r'763c8d174577857e0373ce2b12fbea27f3a0094e';
+
+/// See also [getNextDrop].
+@ProviderFor(getNextDrop)
+final getNextDropProvider =
+    AutoDisposeFutureProvider<({int id, DateTime timestamp})>.internal(
+  getNextDrop,
+  name: r'getNextDropProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$getNextDropHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef GetNextDropRef
+    = AutoDisposeFutureProviderRef<({int id, DateTime timestamp})>;
+String _$getDropsListHash() => r'2440c4edac8b61a81e9b7262518f0e8c5dadaddb';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -29,6 +44,137 @@ class _SystemHash {
     return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
   }
 }
+
+/// See also [getDropsList].
+@ProviderFor(getDropsList)
+const getDropsListProvider = GetDropsListFamily();
+
+/// See also [getDropsList].
+class GetDropsListFamily extends Family<AsyncValue<List<DropPostModel>>> {
+  /// See also [getDropsList].
+  const GetDropsListFamily();
+
+  /// See also [getDropsList].
+  GetDropsListProvider call(
+    int dropId,
+  ) {
+    return GetDropsListProvider(
+      dropId,
+    );
+  }
+
+  @override
+  GetDropsListProvider getProviderOverride(
+    covariant GetDropsListProvider provider,
+  ) {
+    return call(
+      provider.dropId,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'getDropsListProvider';
+}
+
+/// See also [getDropsList].
+class GetDropsListProvider
+    extends AutoDisposeFutureProvider<List<DropPostModel>> {
+  /// See also [getDropsList].
+  GetDropsListProvider(
+    int dropId,
+  ) : this._internal(
+          (ref) => getDropsList(
+            ref as GetDropsListRef,
+            dropId,
+          ),
+          from: getDropsListProvider,
+          name: r'getDropsListProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$getDropsListHash,
+          dependencies: GetDropsListFamily._dependencies,
+          allTransitiveDependencies:
+              GetDropsListFamily._allTransitiveDependencies,
+          dropId: dropId,
+        );
+
+  GetDropsListProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.dropId,
+  }) : super.internal();
+
+  final int dropId;
+
+  @override
+  Override overrideWith(
+    FutureOr<List<DropPostModel>> Function(GetDropsListRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: GetDropsListProvider._internal(
+        (ref) => create(ref as GetDropsListRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        dropId: dropId,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<List<DropPostModel>> createElement() {
+    return _GetDropsListProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is GetDropsListProvider && other.dropId == dropId;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, dropId.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin GetDropsListRef on AutoDisposeFutureProviderRef<List<DropPostModel>> {
+  /// The parameter `dropId` of this provider.
+  int get dropId;
+}
+
+class _GetDropsListProviderElement
+    extends AutoDisposeFutureProviderElement<List<DropPostModel>>
+    with GetDropsListRef {
+  _GetDropsListProviderElement(super.provider);
+
+  @override
+  int get dropId => (origin as GetDropsListProvider).dropId;
+}
+
+String _$getDropPostDetailsApiHash() =>
+    r'b4951e3e0177059e3b3284fcfcfdd977000508bf';
 
 /// See also [getDropPostDetailsApi].
 @ProviderFor(getDropPostDetailsApi)
