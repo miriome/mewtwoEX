@@ -10,22 +10,26 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'api.g.dart';
 
 @riverpod
-Future<({DateTime timestamp, int id})> getNextDrop(GetNextDropRef ref) async {
+Future<({DateTime start, DateTime end, int id})> getNextDrop(GetNextDropRef ref) async {
   try {
     final res = await (await Networking.instance).get(path: "drops/getDrop");
     Map response = res.data;
     if (response['status'] == false) {
-      return (timestamp: DateTime.fromMicrosecondsSinceEpoch(0), id :0);
+      return (start: DateTime.fromMicrosecondsSinceEpoch(0), end: DateTime.fromMicrosecondsSinceEpoch(0), id: 0);
     }
     if (response['data'] is Map) {
-      return (timestamp: Utility.parseTimestamp(response['data']['startTimestamp']) ?? DateTime.fromMicrosecondsSinceEpoch(0) , id: Utility.parseInt(response['data']['id']) );
+      return (
+        start: Utility.parseTimestamp(response['data']['startTimestamp']) ?? DateTime.fromMicrosecondsSinceEpoch(0),
+        end: Utility.parseTimestamp(response['data']['endTimestamp']) ?? DateTime.fromMicrosecondsSinceEpoch(0),
+        id: Utility.parseInt(response['data']['id'])
+      );
     }
   } on DioException catch (e, s) {
     Log.instance.e(e.toString(), stackTrace: s);
   } catch (e, s) {
     Log.instance.e(e.toString(), stackTrace: s);
   }
-  return (timestamp: DateTime.fromMicrosecondsSinceEpoch(0), id: 0);
+  return (start: DateTime.fromMicrosecondsSinceEpoch(0), end: DateTime.fromMicrosecondsSinceEpoch(0), id: 0);
 }
 
 @riverpod

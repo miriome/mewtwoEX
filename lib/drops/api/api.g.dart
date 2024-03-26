@@ -6,12 +6,12 @@ part of 'api.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getNextDropHash() => r'763c8d174577857e0373ce2b12fbea27f3a0094e';
+String _$getNextDropHash() => r'f14a92444acede737d89ddc7aeac923540b886a2';
 
 /// See also [getNextDrop].
 @ProviderFor(getNextDrop)
-final getNextDropProvider =
-    AutoDisposeFutureProvider<({int id, DateTime timestamp})>.internal(
+final getNextDropProvider = AutoDisposeFutureProvider<
+    ({DateTime end, int id, DateTime start})>.internal(
   getNextDrop,
   name: r'getNextDropProvider',
   debugGetCreateSourceHash:
@@ -21,7 +21,7 @@ final getNextDropProvider =
 );
 
 typedef GetNextDropRef
-    = AutoDisposeFutureProviderRef<({int id, DateTime timestamp})>;
+    = AutoDisposeFutureProviderRef<({DateTime end, int id, DateTime start})>;
 String _$getDropsListHash() => r'2440c4edac8b61a81e9b7262518f0e8c5dadaddb';
 
 /// Copied from Dart SDK
