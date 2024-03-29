@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mewtwo/home/model/user_model.dart';
+import 'package:mewtwo/profile/measurements/dialog/models/number_measurement_model.dart';
 import 'package:mewtwo/utils.dart';
 
 class NumberMeasurements extends StatelessWidget {
-  final UserModel user;
-  const NumberMeasurements({Key? key, required this.user}) : super(key: key);
+  final NumberMeasurementModel numberMeasurements;
+  const NumberMeasurements({Key? key, required this.numberMeasurements}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,9 +17,7 @@ class NumberMeasurements extends StatelessWidget {
         IgnorePointer(
           child: TextField(
             controller: TextEditingController()
-              ..text = user.hips != null
-                  ? (Utility.parseInt(user.height!) > 0 ? Utility.parseInt(user.height!).toString() : "")
-                  : "",
+              ..text = (numberMeasurements.hips ?? "").toString(),
             maxLength: 3,
             decoration: const InputDecoration(
                 labelText: "Height",
@@ -41,7 +40,7 @@ class NumberMeasurements extends StatelessWidget {
         IgnorePointer(
           child: TextField(
             controller: TextEditingController()
-              ..text = user.bust != null ? (Utility.parseInt(user.bust!) > 0 ? Utility.parseInt(user.bust!).toString() : "") : "",
+              ..text = (numberMeasurements.bust ?? "").toString(),
             keyboardType: TextInputType.number,
             maxLength: 3,
             decoration: const InputDecoration(
@@ -65,7 +64,7 @@ class NumberMeasurements extends StatelessWidget {
         IgnorePointer(
           child: TextField(
             controller: TextEditingController()
-              ..text = user.waist != null ? (Utility.parseInt(user.waist!) > 0 ? Utility.parseInt(user.waist!).toString() : "") : "",
+              ..text = (numberMeasurements.waist ?? "").toString(),
             maxLength: 3,
             keyboardType: TextInputType.number,
             decoration: const InputDecoration(
@@ -89,7 +88,7 @@ class NumberMeasurements extends StatelessWidget {
         IgnorePointer(
           child: TextField(
             controller: TextEditingController()
-              ..text = user.hips != null ? (Utility.parseInt(user.hips!) > 0 ? Utility.parseInt(user.hips!).toString() : "") : "",
+              ..text = (numberMeasurements.hips ?? "").toString(),
             maxLength: 3,
             keyboardType: TextInputType.number,
             decoration: const InputDecoration(

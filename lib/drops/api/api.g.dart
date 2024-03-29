@@ -174,7 +174,7 @@ class _GetDropsListProviderElement
 }
 
 String _$getDropPostDetailsApiHash() =>
-    r'b4951e3e0177059e3b3284fcfcfdd977000508bf';
+    r'd1d934860a863178ecef00572eec9f66ba16cd7b';
 
 /// See also [getDropPostDetailsApi].
 @ProviderFor(getDropPostDetailsApi)

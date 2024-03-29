@@ -23,6 +23,7 @@ import 'package:mewtwo/post/pages/post_details_page/comments/comments_section/co
 import 'package:mewtwo/post/pages/post_details_page/widgets/post_measurements.dart';
 import 'package:mewtwo/post/pages/post_details_page/widgets/post_options.dart';
 import 'package:mewtwo/profile/measurements/dialog/measurements_view_dialog.dart';
+import 'package:mewtwo/profile/measurements/dialog/models/number_measurement_model.dart';
 import 'package:mewtwo/profile/routes/routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mewtwo/post/utils.dart';
@@ -271,7 +272,7 @@ class _PostDetailsPageState extends State<PostDetailsPage> with TickerProviderSt
                     gravity: ToastGravity.CENTER);
                 return;
               }
-              MeasurementsViewDialog.show(context, user);
+              MeasurementsViewDialog.show(context, numberMeasurements: NumberMeasurementModel.fromJson(user.toJson()), sizings: user.brandSizings ?? []);
             },
             child: SvgPicture.asset(
               'assets/icons/measuring_tape.svg',

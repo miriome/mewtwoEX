@@ -8,6 +8,7 @@ part of 'routes.dart';
 
 List<RouteBase> get $appRoutes => [
       $unauthorizedRoute,
+      $authorizedRoute,
       $mainTabShellRoute,
     ];
 
@@ -132,6 +133,81 @@ extension $ForgetPasswordRouteExtension on ForgetPasswordRoute {
 
   String get location => GoRouteData.$location(
         '/unauth/forget-password',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $authorizedRoute => GoRouteData.$route(
+      path: '/auth',
+      factory: $AuthorizedRouteExtension._fromState,
+      routes: [
+        GoRouteData.$route(
+          path: 'drop/postDetails',
+          factory: $DropDetailsPageRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
+          path: 'chat/:targetId',
+          factory: $FullscreenChatPageRouteExtension._fromState,
+        ),
+      ],
+    );
+
+extension $AuthorizedRouteExtension on AuthorizedRoute {
+  static AuthorizedRoute _fromState(GoRouterState state) => AuthorizedRoute();
+
+  String get location => GoRouteData.$location(
+        '/auth',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $DropDetailsPageRouteExtension on DropDetailsPageRoute {
+  static DropDetailsPageRoute _fromState(GoRouterState state) =>
+      DropDetailsPageRoute(
+        postId: int.parse(state.uri.queryParameters['post-id']!),
+      );
+
+  String get location => GoRouteData.$location(
+        '/auth/drop/postDetails',
+        queryParams: {
+          'post-id': postId.toString(),
+        },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $FullscreenChatPageRouteExtension on FullscreenChatPageRoute {
+  static FullscreenChatPageRoute _fromState(GoRouterState state) =>
+      FullscreenChatPageRoute(
+        targetId: int.parse(state.pathParameters['targetId']!),
+      );
+
+  String get location => GoRouteData.$location(
+        '/auth/chat/${Uri.encodeComponent(targetId.toString())}',
       );
 
   void go(BuildContext context) => context.go(location);

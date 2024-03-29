@@ -19,6 +19,13 @@ DropPostModel _$DropPostModelFromJson(Map<String, dynamic> json) =>
       price: json['price'] as String,
       condition: json['condition'] as String,
       clothingSize: json['clothingSize'] as String,
+      numberSizing: json['numberSizing'] == null
+          ? null
+          : NumberMeasurementModel.fromJson(
+              json['numberSizing'] as Map<String, dynamic>),
+      brandSizing: (json['brandSizing'] as List<dynamic>?)
+          ?.map((e) => BrandSizingModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$DropPostModelToJson(DropPostModel instance) =>
@@ -31,6 +38,8 @@ Map<String, dynamic> _$DropPostModelToJson(DropPostModel instance) =>
       'clothingSize': instance.clothingSize,
       'isSold': instance.isSold,
       'images': instance.images.map((e) => e.toJson()).toList(),
+      'numberSizing': instance.numberSizing?.toJson(),
+      'brandSizing': instance.brandSizing?.map((e) => e.toJson()).toList(),
       'caption': instance.caption,
     };
 

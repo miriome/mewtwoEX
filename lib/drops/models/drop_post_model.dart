@@ -1,5 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:mewtwo/home/model/brand_sizing_model.dart';
 import 'package:mewtwo/home/model/user_model.dart';
+import 'package:mewtwo/profile/measurements/dialog/models/number_measurement_model.dart';
+import 'package:mewtwo/profile/upsert_measurements/upsert_measurements_base/components/number_measurement_form.dart';
 import 'package:mewtwo/utils.dart';
 part 'drop_post_model.g.dart';
 
@@ -16,6 +19,8 @@ class DropPostModel {
   @JsonKey(fromJson: Utility.parseBool)
   final bool isSold;
   final List<DropPostImageModel> images;
+  final NumberMeasurementModel? numberSizing;
+  final List<BrandSizingModel>? brandSizing;
 
   final String caption;
 
@@ -29,6 +34,8 @@ class DropPostModel {
       required this.price,
       required this.condition,
       required this.clothingSize,
+      required this.numberSizing,
+    required this.brandSizing, 
       });
 
   /// Connect the generated [_$PersonFromJson] function to the `fromJson`

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mewtwo/base/widgets/post_image.dart';
 import 'package:mewtwo/drops/models/drop_post_model.dart';
+import 'package:mewtwo/drops/routes/routes.dart';
+import 'package:mewtwo/routes/routes.dart';
 import 'package:mewtwo/utils.dart';
 
 class DropsPostTile extends StatelessWidget {
@@ -10,7 +12,7 @@ class DropsPostTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      // onTap: () => PostDetailsRoute(postId: post.id).push(context),
+      onTap: () => DropDetailsPageRoute(postId: post.id).push(context),
       child: Container(
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(4),
@@ -26,9 +28,13 @@ class DropsPostTile extends StatelessWidget {
                   ClipRRect(
                       borderRadius: const BorderRadius.only(topLeft: Radius.circular(4), topRight: Radius.circular(4)),
                       child: PostImage(imageUrl: Utility.parseImageUrl(post.images.first.image))),
-                  const SizedBox(height: 6,),
+                  const SizedBox(
+                    height: 6,
+                  ),
                   buildCardFooter(),
-                  const SizedBox(height: 6,),
+                  const SizedBox(
+                    height: 6,
+                  ),
                 ],
               ),
             ],

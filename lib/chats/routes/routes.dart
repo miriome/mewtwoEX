@@ -15,3 +15,11 @@ class ChatRoutes {
       ];
       
 }
+
+class FullscreenChatRoutes {
+  static const List<TypedGoRoute> typedRoutes = [
+    TypedGoRoute<FullscreenChatPageRoute>(
+      path: 'chat/:targetId',
+    ),
+  ];
+}

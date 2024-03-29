@@ -11,6 +11,7 @@ import 'package:mewtwo/mew.dart';
 import 'package:mewtwo/networking/networking.dart';
 import 'package:mewtwo/post/routes/routes.dart';
 import 'package:mewtwo/profile/measurements/dialog/measurements_view_dialog.dart';
+import 'package:mewtwo/profile/measurements/dialog/models/number_measurement_model.dart';
 import 'package:mewtwo/profile/profile_page/profile_page_store.dart';
 import 'package:mewtwo/profile/profile_page/widgets/profile_options.dart';
 import 'package:mewtwo/profile/profile_page/widgets/profile_post_tile.dart';
@@ -174,7 +175,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
 
   Widget buildMeasurements() {
     return GestureDetector(
-            onTap: () {MeasurementsViewDialog.show(context, store.user!);},
+            onTap: () {MeasurementsViewDialog.show(context, numberMeasurements: NumberMeasurementModel.fromJson(store.user!.toJson()) , sizings: store.user?.brandSizings ?? []);},
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
               decoration: BoxDecoration(

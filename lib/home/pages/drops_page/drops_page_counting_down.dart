@@ -4,7 +4,8 @@ import 'package:mewtwo/base/providers/counter_provider/countdown_provider.dart';
 
 class DropsPageCountingDown extends StatelessWidget {
   final DateTime timeToDrop;
-  const DropsPageCountingDown({Key? key, required this.timeToDrop}) : super(key: key);
+  final DateTime timeToDropEnd;
+  const DropsPageCountingDown({Key? key, required this.timeToDrop, required this.timeToDropEnd}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -12,19 +13,24 @@ class DropsPageCountingDown extends StatelessWidget {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Text.rich(
-            TextSpan(style: TextStyle(fontSize: 20), children: [
-              TextSpan(text: "Early bird catches the worm\n\n"),
-              TextSpan(text: "We release our curated drops\n"),
-              TextSpan(text: "every Tuesday at 7pm\n\n", style: TextStyle(fontWeight: FontWeight.bold)),
-              TextSpan(text: "Next drop in:", style: TextStyle(fontWeight: FontWeight.bold)),
+          Text.rich(
+            TextSpan(style: const TextStyle(fontSize: 20), children: [
+              const TextSpan(text: "Early bird catches the worm\n\n"),
+              const TextSpan(text: "We release our curated drops\n"),
+              const TextSpan(text: "every Tuesday at 7pm\n\n", style: TextStyle(fontWeight: FontWeight.bold)),
+              if (timeToDropEnd.isAfter(DateTime.now()))
+              const TextSpan(text: "Next drop in:", style: TextStyle(fontWeight: FontWeight.bold)),
             ]),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(
-            height: 24,
-          ),
-          buildCountDown()
+          if (timeToDropEnd.isAfter(DateTime.now()))
+          ...[
+            const SizedBox(
+              height: 24,
+            ),
+            buildCountDown()
+          ]
+          
         ],
       );
     });

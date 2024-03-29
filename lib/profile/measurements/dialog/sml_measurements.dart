@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
-import 'package:mewtwo/home/model/user_model.dart';
+import 'package:mewtwo/home/model/brand_sizing_model.dart';
 
 class SmlMeasurements extends StatelessWidget {
-  final UserModel user;
+  final List<BrandSizingModel> brandSizings;
 
   /// key is clothing type
   late final Map<String, List<({String brandName, String size})>> data;
-  SmlMeasurements({Key? key, required this.user}) : super(key: key) {
+  SmlMeasurements({Key? key, required this.brandSizings}) : super(key: key) {
     // data =;
     final Map<String, List<({String brandName, String size})>> data = {};
-    for (final sizing in user.brandSizings ?? []) {
+    for (final sizing in brandSizings) {
       if (data[sizing.clothing_type] == null) {
         data[sizing.clothing_type] = [];
       }
