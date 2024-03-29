@@ -203,7 +203,7 @@ class _DropDetailsPageState extends State<DropDetailsPage> with TickerProviderSt
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            post.price,
+            "\$${post.price}",
             style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           const SizedBox(
