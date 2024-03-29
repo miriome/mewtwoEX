@@ -77,7 +77,7 @@ class ChatPage extends StatelessWidget {
                         height: messageWidth * 0.72,
                         width: messageWidth.toDouble(),
                         child: const Center(child: CircularProgressIndicator())),
-                      cachedWidth: messageWidth - 1,
+                      cachedWidth: messageWidth * 3 - 1,
                       // alignment: Alignment.topCenter,
                     );
                   },
