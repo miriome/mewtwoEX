@@ -44,7 +44,9 @@ class DropsListingPage extends StatelessWidget {
 
   Widget buildEndTime() {
     return Consumer(builder: (context, ref, child) {
-      final countdown = ref.watch(countdownNotifierProvider(end.difference(DateTime.now())));
+      final countdown = ref.watch(countdownNotifierProvider(end.difference(DateTime.now()), onDone: () {
+        Mew.pc.invalidate(getNextDropProvider);
+      }));
       final hours = countdown.inHours.remainder(24);
       final minutes = countdown.inMinutes.remainder(60);
       final seconds = countdown.inSeconds.remainder(60);

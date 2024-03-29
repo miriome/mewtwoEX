@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mewtwo/base/providers/counter_provider/countdown_provider.dart';
+import 'package:mewtwo/drops/api/api.dart';
+import 'package:mewtwo/mew.dart';
 
 class DropsPageCountingDown extends StatelessWidget {
   final DateTime timeToDrop;
@@ -51,7 +53,9 @@ class DropsPageCountingDown extends StatelessWidget {
 
   Widget buildCountDown() {
     return Consumer(builder: (context, ref, child) {
-      final durationLeft = ref.watch(countdownNotifierProvider(timeToDrop.difference(DateTime.now())));
+      final durationLeft = ref.watch(countdownNotifierProvider(timeToDrop.difference(DateTime.now()), onDone: () {
+        Mew.pc.invalidate(getNextDropProvider);
+      }));
       final days = durationLeft.inDays;
       final hours = durationLeft.inHours.remainder(24);
       final minutes = durationLeft.inMinutes.remainder(60);
