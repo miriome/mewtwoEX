@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:mewtwo/base/widgets/post_image.dart';
 import 'package:mewtwo/drops/models/drop_post_model.dart';
 import 'package:mewtwo/drops/routes/routes.dart';
@@ -25,9 +26,28 @@ class DropsPostTile extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  ClipRRect(
-                      borderRadius: const BorderRadius.only(topLeft: Radius.circular(4), topRight: Radius.circular(4)),
-                      child: PostImage(imageUrl: Utility.parseImageUrl(post.images.first.image))),
+                  Stack(
+                    children: [
+                      ClipRRect(
+                          borderRadius: const BorderRadius.only(topLeft: Radius.circular(4), topRight: Radius.circular(4)),
+                          child: PostImage(imageUrl: Utility.parseImageUrl(post.images.first.image))),
+                      if (post.isSold)
+                      Positioned(
+                        left: 12,
+                        right: 12,
+                        bottom: 4,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 4),
+                          decoration:  BoxDecoration(
+                            color: const Color(0xFF8474A1).withOpacity(0.8),
+                            borderRadius: BorderRadius.circular(6)
+                          ),
+                          child: const Text("SOLD", 
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),),
+                        ))
+                    ],
+                  ),
                   const SizedBox(
                     height: 6,
                   ),

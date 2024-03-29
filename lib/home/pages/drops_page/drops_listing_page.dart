@@ -28,10 +28,10 @@ class DropsListingPage extends StatelessWidget {
                   mainAxisSpacing: 8,
                   crossAxisSpacing: 8,
                   padding: const EdgeInsets.only(bottom: 60),
-                  itemCount: 30,
+                  itemCount: drops.length,
                   itemBuilder: (context, index) {
                     return DropsPostTile(
-                      post: drops[0],
+                      post: drops[index],
                     );
                   },
                 ),

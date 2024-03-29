@@ -147,7 +147,7 @@ class _DropDetailsPageState extends State<DropDetailsPage> with TickerProviderSt
                                   FullscreenChatPageRoute(targetId: 52).push(context);},
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    color: post.isSold ? const Color(0xFF8474A1) : Theme.of(context).primaryColor,
+                                    color: post.isSold ? const Color(0xFF8474A1).withOpacity(0.8) : Theme.of(context).primaryColor,
                                     borderRadius: BorderRadius.circular(20)
                                   ),
                                   child:  Padding(
