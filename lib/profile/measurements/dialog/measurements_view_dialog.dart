@@ -1,13 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mewtwo/home/model/brand_sizing_model.dart';
 import 'package:mewtwo/home/model/user_model.dart';
+import 'package:mewtwo/profile/measurements/dialog/models/number_measurement_model.dart';
 import 'package:mewtwo/profile/measurements/dialog/number_measurements.dart';
 import 'package:mewtwo/profile/measurements/dialog/sml_measurements.dart';
 
 class MeasurementsViewDialog extends StatefulWidget {
-  final UserModel user;
-  const MeasurementsViewDialog({Key? key, required this.user}) : super(key: key);
-  static Future<void> show(BuildContext context, UserModel user) async {
+  final NumberMeasurementModel numberMeasurements;
+  final List<BrandSizingModel> sizings;
+  const MeasurementsViewDialog({Key? key, required this.numberMeasurements, required this.sizings}) : super(key: key);
+  static Future<void> show(BuildContext context, {required NumberMeasurementModel numberMeasurements, required List<BrandSizingModel> sizings}) async {
     return showDialog(
         context: context,
         builder: (context) {
@@ -15,7 +18,8 @@ class MeasurementsViewDialog extends StatefulWidget {
             insetPadding: const EdgeInsets.symmetric(horizontal: 16),
             backgroundColor: Colors.white,
             surfaceTintColor: Colors.white,
-            child: MeasurementsViewDialog(user: user),
+            child: MeasurementsViewDialog(
+              numberMeasurements: numberMeasurements, sizings: sizings,),
           );
         });
   }
@@ -69,11 +73,11 @@ class _MeasurementsViewDialogState extends State<MeasurementsViewDialog> with Si
                 child: TabBarView(controller: tabController, children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: NumberMeasurements(user: widget.user),
+                    child: NumberMeasurements(numberMeasurements: widget.numberMeasurements,),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: SmlMeasurements(user: widget.user),
+                    child: SmlMeasurements(brandSizings: widget.sizings,),
                   )
                   
                 ]),

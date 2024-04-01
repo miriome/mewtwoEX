@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mewtwo/base/widgets/miromie_title.dart';
 import 'package:mewtwo/chats/providers/providers.dart';
 import 'package:mewtwo/chats/routes/routes.dart';
+import 'package:mewtwo/home/main_app_bar.dart';
 import 'package:mewtwo/home/pages/home_page/api/api.dart';
 import 'package:mewtwo/home/pages/home_page/home_page_store.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -45,7 +46,7 @@ class _HomePageState extends State<HomePage> {
     return Observer(builder: (context) {
       return Scaffold(
           backgroundColor: Colors.white,
-          appBar: appBar,
+          appBar: MainAppBar.getAppBar(context),
           body: Container(
             color: Colors.white,
             padding: const EdgeInsets.symmetric(horizontal: 8),

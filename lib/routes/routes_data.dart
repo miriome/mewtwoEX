@@ -38,3 +38,10 @@ class NotificationPageRoute extends GoRouteData {
     return const NotificationPage();
   }
 }
+
+class DropsPageRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const DropsPage();
+  }
+}

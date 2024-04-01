@@ -8,6 +8,7 @@ part of 'routes.dart';
 
 List<RouteBase> get $appRoutes => [
       $unauthorizedRoute,
+      $authorizedRoute,
       $mainTabShellRoute,
     ];
 
@@ -144,6 +145,81 @@ extension $ForgetPasswordRouteExtension on ForgetPasswordRoute {
   void replace(BuildContext context) => context.replace(location);
 }
 
+RouteBase get $authorizedRoute => GoRouteData.$route(
+      path: '/auth',
+      factory: $AuthorizedRouteExtension._fromState,
+      routes: [
+        GoRouteData.$route(
+          path: 'drop/postDetails',
+          factory: $DropDetailsPageRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
+          path: 'chat/:targetId',
+          factory: $FullscreenChatPageRouteExtension._fromState,
+        ),
+      ],
+    );
+
+extension $AuthorizedRouteExtension on AuthorizedRoute {
+  static AuthorizedRoute _fromState(GoRouterState state) => AuthorizedRoute();
+
+  String get location => GoRouteData.$location(
+        '/auth',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $DropDetailsPageRouteExtension on DropDetailsPageRoute {
+  static DropDetailsPageRoute _fromState(GoRouterState state) =>
+      DropDetailsPageRoute(
+        postId: int.parse(state.uri.queryParameters['post-id']!),
+      );
+
+  String get location => GoRouteData.$location(
+        '/auth/drop/postDetails',
+        queryParams: {
+          'post-id': postId.toString(),
+        },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $FullscreenChatPageRouteExtension on FullscreenChatPageRoute {
+  static FullscreenChatPageRoute _fromState(GoRouterState state) =>
+      FullscreenChatPageRoute(
+        targetId: int.parse(state.pathParameters['targetId']!),
+      );
+
+  String get location => GoRouteData.$location(
+        '/auth/chat/${Uri.encodeComponent(targetId.toString())}',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
 RouteBase get $mainTabShellRoute => StatefulShellRouteData.$route(
       factory: $MainTabShellRouteExtension._fromState,
       branches: [
@@ -153,6 +229,10 @@ RouteBase get $mainTabShellRoute => StatefulShellRouteData.$route(
               path: '/',
               factory: $HomePageRouteExtension._fromState,
               routes: [
+                GoRouteData.$route(
+                  path: 'notifications-page',
+                  factory: $NotificationPageRouteExtension._fromState,
+                ),
                 GoRouteData.$route(
                   path: 'reportContent',
                   parentNavigatorKey: ReportContentRoute.$parentNavigatorKey,
@@ -242,8 +322,8 @@ RouteBase get $mainTabShellRoute => StatefulShellRouteData.$route(
         StatefulShellBranchData.$branch(
           routes: [
             GoRouteData.$route(
-              path: '/NotificationPage',
-              factory: $NotificationPageRouteExtension._fromState,
+              path: '/DropsPage',
+              factory: $DropsPageRouteExtension._fromState,
             ),
           ],
         ),
@@ -268,6 +348,24 @@ extension $HomePageRouteExtension on HomePageRoute {
 
   String get location => GoRouteData.$location(
         '/',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $NotificationPageRouteExtension on NotificationPageRoute {
+  static NotificationPageRoute _fromState(GoRouterState state) =>
+      NotificationPageRoute();
+
+  String get location => GoRouteData.$location(
+        '/notifications-page',
       );
 
   void go(BuildContext context) => context.go(location);
@@ -608,12 +706,11 @@ extension $FakeNewPostRouteExtension on FakeNewPostRoute {
   void replace(BuildContext context) => context.replace(location);
 }
 
-extension $NotificationPageRouteExtension on NotificationPageRoute {
-  static NotificationPageRoute _fromState(GoRouterState state) =>
-      NotificationPageRoute();
+extension $DropsPageRouteExtension on DropsPageRoute {
+  static DropsPageRoute _fromState(GoRouterState state) => DropsPageRoute();
 
   String get location => GoRouteData.$location(
-        '/NotificationPage',
+        '/DropsPage',
       );
 
   void go(BuildContext context) => context.go(location);

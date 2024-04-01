@@ -37,15 +37,17 @@ class ChatPage extends StatelessWidget {
             case AsyncData(:final value):
               {
                 final roomId = ChatUtils.getChatRoomId(firstId: Constants.sp.getInt(Constants.kKeyId) ?? -1, secondId: targetId);
-                final newestMessage = value[0];
-                final lastUnreadTimestamp = Constants.sp.getInt(Constants.kUnreadChat(roomId)) ?? -1;
-                if (newestMessage.createdAt != null) {
-                  /// Set last seen time for messages
-                  if ((newestMessage.createdAt! ~/ 1000) + 1 > lastUnreadTimestamp) {
-                    Constants.sp.setInt(Constants.kUnreadChat(roomId), (newestMessage.createdAt! ~/ 1000) + 1);
-                        
+                final newestMessage = value.firstOrNull;
+                if (newestMessage != null) {
+                  final lastUnreadTimestamp = Constants.sp.getInt(Constants.kUnreadChat(roomId)) ?? -1;
+                  if (newestMessage.createdAt != null) {
+                    /// Set last seen time for messages
+                    if ((newestMessage.createdAt! ~/ 1000) + 1 > lastUnreadTimestamp) {
+                      Constants.sp.setInt(Constants.kUnreadChat(roomId), (newestMessage.createdAt! ~/ 1000) + 1);
+                    }
                   }
                 }
+                
                 return Chat(
                   theme: DefaultChatTheme(
                       inputTextDecoration: InputDecoration(
@@ -75,7 +77,7 @@ class ChatPage extends StatelessWidget {
                         height: messageWidth * 0.72,
                         width: messageWidth.toDouble(),
                         child: const Center(child: CircularProgressIndicator())),
-                      cachedWidth: messageWidth - 1,
+                      cachedWidth: messageWidth * 3 - 1,
                       // alignment: Alignment.topCenter,
                     );
                   },

@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 class PostImage extends StatelessWidget {
   static const double maxWidth = 184 * 4;
-  static const aspectRatio = 184 / 242;
+  static const aspectRatio = 184 / 231;
   static const fit = BoxFit.cover;
   final String imageUrl;
   const PostImage({Key? key, required this.imageUrl}) : super(key: key);

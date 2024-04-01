@@ -111,4 +111,11 @@ class Utility {
     }
     return int.tryParse(val) ?? defaultVal;
   }
+
+  static DateTime? parseTimestamp(dynamic val) {
+    if (val is String) {
+      return DateTime.parse(val);
+    }
+    return null;
+  }
 }
