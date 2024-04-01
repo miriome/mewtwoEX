@@ -1,5 +1,7 @@
+import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:mewtwo/base/providers/counter_provider/countdown_provider.dart';
 import 'package:mewtwo/drops/api/api.dart';
 import 'package:mewtwo/mew.dart';
@@ -19,7 +21,10 @@ class DropsPageCountingDown extends StatelessWidget {
             TextSpan(style: const TextStyle(fontSize: 20), children: [
               const TextSpan(text: "Early bird catches the worm\n\n"),
               const TextSpan(text: "We release our curated drops\n"),
-              const TextSpan(text: "every Tuesday at 7pm\n\n", style: TextStyle(fontWeight: FontWeight.bold)),
+              (timeToDropEnd.isAfter(DateTime.now())) ? 
+              TextSpan(text: "every ${DateFormat('EEE').format(timeToDrop) } at ${DateFormat.j().format(timeToDrop)}\n\n", style: const TextStyle(fontWeight: FontWeight.bold)) :
+              const TextSpan(text: "every Wed at 7 PM\n\n", style: TextStyle(fontWeight: FontWeight.bold)),
+              
               if (timeToDropEnd.isAfter(DateTime.now()))
               const TextSpan(text: "Next drop in:", style: TextStyle(fontWeight: FontWeight.bold)),
             ]),
