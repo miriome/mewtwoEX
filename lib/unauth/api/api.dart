@@ -1,4 +1,5 @@
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:mewtwo/base/stores/current_user_store.dart';
 import 'package:mewtwo/constants.dart';
 import 'package:mewtwo/home/model/user_model.dart';
 import 'package:mewtwo/networking/networking.dart';
@@ -28,6 +29,7 @@ Future<bool> loginApi(LoginApiRef ref, {required String username, required Strin
     final sp = await SharedPreferences.getInstance();
     await sp.setInt(Constants.kKeyId, userId);
     await sp.setString(Constants.kKeyToken, token);
+    ref.invalidate(currentUserStoreProvider);
     Networking.reset();
     return true;
   } on DioException catch (e, s) {
