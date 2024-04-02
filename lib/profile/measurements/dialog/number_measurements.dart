@@ -17,7 +17,7 @@ class NumberMeasurements extends StatelessWidget {
         IgnorePointer(
           child: TextField(
             controller: TextEditingController()
-              ..text = (numberMeasurements.hips ?? "").toString(),
+              ..text = (numberMeasurements.height ?? "").toString(),
             maxLength: 3,
             decoration: const InputDecoration(
                 labelText: "Height",

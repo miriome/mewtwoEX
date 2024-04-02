@@ -65,6 +65,7 @@ class _DropDetailsPageState extends State<DropDetailsPage> with TickerProviderSt
           appBar: AppBar(
             title: const Text(
               "Drop",
+              // maxLines: ,
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Colors.black),
             ),
           ),
