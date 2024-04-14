@@ -87,6 +87,7 @@ dependencies:
   firebase_analytics: ^10.8.6
   form_builder_validators: ^9.1.0
   slide_countdown: ^1.5.2
+  app_settings: ^5.1.1
 
 
 

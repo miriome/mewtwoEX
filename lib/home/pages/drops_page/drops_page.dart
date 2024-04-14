@@ -27,12 +27,6 @@ class _DropsPageState extends ConsumerState<DropsPage> {
               return AsyncDataBuilder(
                   data: data,
                   dataBuilder: (drop) {
-                    final currentTime = DateTime.now();
-                    if (drop.start.isAfter(currentTime) || drop.end.isBefore(currentTime)) {
-                      return  Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: DropsPageCountingDown(timeToDrop: drop.start, timeToDropEnd: drop.end,));
-                    }
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: DropsListingPage(dropId: drop.id, end: drop.end),

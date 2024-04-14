@@ -34,4 +34,8 @@ class NumberMeasurementModel {
                   : null;
 
   }
+
+  bool hasNoMeasurement() {
+    return waist == null && height == null && hips == null && bust == null;
+  }
 }

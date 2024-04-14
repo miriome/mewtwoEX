@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_linkify/flutter_linkify.dart' hide UrlLinkifier, UrlElement;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mewtwo/base/linkify/hashtag_linkifier.dart';
 import 'package:mewtwo/base/linkify/mention_linkifier.dart';
 import 'package:mewtwo/base/linkify/url_linkifier.dart';
@@ -125,12 +126,18 @@ class _DropDetailsPageState extends State<DropDetailsPage> with TickerProviderSt
                           children: [
                             GestureDetector(
                               onTap: () {
-                                if (post.numberSizing != null && post.brandSizing != null) {
+                                if (post.numberSizing != null &&
+                                    !post.numberSizing!.hasNoMeasurement() &&
+                                    post.brandSizing != null &&
+                                    post.brandSizing!.isNotEmpty) {
                                   MeasurementsViewDialog.show(context,
-                                  // Details and main page shouldnt share the same model. I got lazy.
-                                      numberMeasurements: post.numberSizing!, sizings: post.brandSizing!);
+                                      // Details and main page shouldnt share the same model. I got lazy.
+                                      numberMeasurements: post.numberSizing!,
+                                      sizings: post.brandSizing!);
+                                } else {
+                                  Fluttertoast.showToast(
+                                      msg: "This drop has currently no measurements", gravity: ToastGravity.CENTER);
                                 }
-                                
                               },
                               child: SvgPicture.asset(
                                 'assets/icons/measuring_tape.svg',
@@ -138,32 +145,32 @@ class _DropDetailsPageState extends State<DropDetailsPage> with TickerProviderSt
                                 width: 32,
                               ),
                             ),
-                            const SizedBox(width: 16,),
+                            const SizedBox(
+                              width: 16,
+                            ),
                             Expanded(
                               child: GestureDetector(
                                 onTap: () {
                                   if (post.isSold) {
                                     return;
                                   }
-                                  FullscreenChatPageRoute(targetId: 52).push(context);},
+                                  FullscreenChatPageRoute(targetId: 52).push(context);
+                                },
                                 child: Container(
-                                  decoration: BoxDecoration(
-                                    color: post.isSold ? const Color(0xFF8474A1).withOpacity(0.8) : Theme.of(context).primaryColor,
-                                    borderRadius: BorderRadius.circular(20)
-                                  ),
-                                  child:  Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                                    child: Text(
-                                      post.isSold ? "Sold" :"Chat to Buy",
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white
+                                    decoration: BoxDecoration(
+                                        color: post.isSold
+                                            ? const Color(0xFF8474A1).withOpacity(0.8)
+                                            : Theme.of(context).primaryColor,
+                                        borderRadius: BorderRadius.circular(20)),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                      child: Text(
+                                        post.isSold ? "Sold" : "Chat to Buy",
+                                        textAlign: TextAlign.center,
+                                        style: const TextStyle(
+                                            fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
                                       ),
-                                    ),
-                                  )
-                                ),
+                                    )),
                               ),
                             )
                           ],
